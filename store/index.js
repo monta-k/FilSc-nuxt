@@ -20,7 +20,11 @@ export const mutations = {
   setData(state, { data }) {
     state.title = data.title
     state.movies = data.movie
-  }
+  },
+  resetData(state) {
+    state.title = ''
+    state.movies = null
+  },
 }
 
 export const actions = {
@@ -30,10 +34,11 @@ export const actions = {
   notLoading({ commit }) {
     commit('notLoading')
   },
-  async fetchData({ commit }) {
+  async fetchData({ commit }, userId) {
+    commit('resetData')
     commit('loading')
     try{
-      const data = await this.$axios.$get('http://localhost:3000/api/v1')
+      const data = await this.$axios.$get('http://localhost:3000/api/v1', { params: { userId: userId } })
       commit('setData', { data })
     } catch (e) {
       console.log(e)
