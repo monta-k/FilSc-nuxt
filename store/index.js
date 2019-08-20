@@ -38,6 +38,7 @@ export const actions = {
     commit('resetData')
     commit('loading')
     try{
+      console.log(process.env.BASE_API)
       const data = await this.$axios.$get(`${process.env.BASE_API}/api/v1`, { params: { userId: userId } })
       commit('setData', { data })
     } catch (e) {

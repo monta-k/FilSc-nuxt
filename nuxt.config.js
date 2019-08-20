@@ -44,10 +44,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    [
-      '@nuxtjs/dotenv',
-      { filename: process.env.NODE_ENV !== 'production' ? "./config/.env.dev" : "./config/.env.prod" }
-    ]
+    '@nuxtjs/dotenv',
   ],
   /*
   ** Axios module configuration
