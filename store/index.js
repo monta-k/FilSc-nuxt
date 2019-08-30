@@ -1,13 +1,15 @@
 export const state = () => ({
   isLoading: false,
   title: '',
-  movies: null
+  movies: null,
+  hasError: false,
 })
 
 export const getters = {
   isLoading: (state) => state.isLoading,
   title: (state) => state.title,
-  movies: (state) => state.movies
+  movies: (state) => state.movies,
+  hasError: (state) => state.hasError,
 }
 
 export const mutations = {
@@ -25,6 +27,12 @@ export const mutations = {
     state.title = ''
     state.movies = null
   },
+  setError(state) {
+    state.hasError = true
+  },
+  resetError(state) {
+    state.hasError = false
+  }
 }
 
 export const actions = {
@@ -33,6 +41,9 @@ export const actions = {
   },
   notLoading({ commit }) {
     commit('notLoading')
+  },
+  resetError({ commit }) {
+    commit('resetError')
   },
   async fetchData({ commit }, userId) {
     commit('resetData')
@@ -43,6 +54,7 @@ export const actions = {
       commit('setData', { data })
     } catch (e) {
       console.log(e)
+      commit('setError')
     }
     commit('notLoading')
   }

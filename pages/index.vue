@@ -1,11 +1,14 @@
 <template>
   <div class="container">
     <h1 class="h1">FilSc</h1>
-    <h4 class="h4" v-if="isLoading">読み込み中(チェックしてる数によって長くなるごめんちゃい)</h4>
-    <form @submit.prevent="fetchData(serchWord)">
+    <h4 class="h4" v-if="isLoading">読み込み中</h4>
+    <form @submit.prevent="search()">
       <input class="border mb-1" type="text" v-model="serchWord" style="height: 35px;">
       <button class="btn btn-outline btn-dark" type="submit">チェックした映画を尺順に取り出す</button>
     </form>
+    <div v-if="hasError">
+      <h3 class="h3">えら〜(ユーザー名が間違ってるかも)</h3>
+    </div>
     <div class="mt-2">
       <h3 class="h3">{{ title }}</h3>
       <div class="row">
@@ -37,7 +40,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoading', 'title', 'movies'])
+    ...mapGetters(['isLoading', 'title', 'movies', 'hasError'])
   },
   filters: {
     movieLength: function (movie) {
@@ -45,7 +48,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['loading', 'notLoading', 'fetchData'])
+    search() {
+      this.resetError()
+      this.fetchData(this.serchWord)
+    },
+    ...mapActions(['loading', 'notLoading', 'fetchData', 'resetError'])
   }
 }
 </script>
