@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <h1 class="h1">FilSc</h1>
     <h4 class="h4" v-if="isLoading">読み込み中</h4>
     <form @submit.prevent="search()">

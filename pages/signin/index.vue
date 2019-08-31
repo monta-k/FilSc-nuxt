@@ -1,7 +1,14 @@
 <template>
-  <div class="container">
-    <signin-form v-if="mode === 'signin'"></signin-form>
-    <signup-form v-if="mode === 'signup'"></signup-form>
+  <div>
+    <div v-if="isSignupMode">
+      <signup-form></signup-form>
+      <button @click="changeMode()">Signin</button>
+    </div>
+
+    <div v-else>
+      <signin-form></signin-form>
+      <button @click="changeMode()">Signup</button>
+    </div>
   </div>
 </template>
 
@@ -12,11 +19,13 @@ import SignupForm from '~/components/SignupForm'
 export default {
   data() {
     return {
-      mode: 'signin'
+      isSignupMode: false
     }
   },
   methods: {
-    
+    changeMode() {
+      this.isSignupMode = !this.isSignupMode
+    }
   },
   components: {
     SigninForm,
