@@ -20,6 +20,7 @@
 
 <script>
 import firebase from '~/plugins/firebase'
+import { mapActions } from 'vuex'
 
 export default {
   data() {
@@ -32,6 +33,7 @@ export default {
   methods: {
     async signup() {
       try {
+        this.loading()
         const res = await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         const idToken = await res.user.getIdToken(true)
         this.$axios.setHeader('Authorization', idToken)
@@ -40,8 +42,11 @@ export default {
         this.$router.push('/')
       } catch (e) {
         console.log(e)
+      } finally {
+        this.notLoading()
       }
-    }
+    },
+    ...mapActions(['loading', 'notLoading'])
   }
 }
 </script>

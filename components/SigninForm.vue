@@ -32,6 +32,7 @@ export default {
   methods: {
     async googleSignin() {
       try {
+        this.loading()
         const provider = new firebase.auth.GoogleAuthProvider()
         const res = await firebase.auth().signInWithPopup(provider)
         const idToken = await res.user.getIdToken(true)
@@ -41,10 +42,13 @@ export default {
         this.$router.push('/')
       } catch (e) {
         console.log(e)
+      } finally {
+        this.notLoading()
       }
     },
     async signin() {
       try {
+        this.loading()
         const res = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         const idToken = await res.user.getIdToken(true)
         this.$axios.setHeader('Authorization', idToken)
@@ -53,9 +57,12 @@ export default {
         this.$router.push('/')
       } catch (e) {
         console.log(e)
+      } finally {
+        this.notLoading()
       }
     },
-    ...mapActions('users', ['setUser'])
+    ...mapActions('users', ['setUser']),
+    ...mapActions(['loading', 'notLoading'])
   }
 }
 </script>
