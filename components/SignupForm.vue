@@ -2,6 +2,10 @@
   <div>
     <form>
       <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" v-model="name">
+      </div>
+      <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" v-model="email">
       </div>
@@ -20,6 +24,7 @@ import firebase from '~/plugins/firebase'
 export default {
   data() {
     return {
+      name: '',
       email: '',
       password: '',
     }
@@ -27,7 +32,11 @@ export default {
   methods: {
     async signup() {
       try {
-        await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+        const res = await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+        const idToken = await res.user.getIdToken(true)
+        this.$axios.setHeader('Authorization', idToken)
+        const result = await this.$axios.$post('http://localhost:3000/api/v1/signin', { name: this.name })
+        console.log(result)
         this.$router.push('/')
       } catch (e) {
         console.log(e)

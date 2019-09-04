@@ -11,13 +11,13 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters('users', ['isAuthenticated'])
+    ...mapGetters('users', ['isAuthenticated', 'user'])
   },
   methods: {
     async signout() {
       try {
         await firebase.auth().signOut()
-        this.resetUser
+        this.resetUser()
         this.$router.push('/signin')
         console.log('signout')
       } catch (e) {
