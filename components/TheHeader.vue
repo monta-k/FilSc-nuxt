@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-dark bg-dark">
+  <nav class="navbar navbar-dark bg-dark" style="height: 60px;">
     <h2 class="app-title h2">FilSc</h2>
     <button class="btn btn-rounded btn-dark" v-if="isAuthenticated" @click="signout">ログアウト</button>
   </nav>

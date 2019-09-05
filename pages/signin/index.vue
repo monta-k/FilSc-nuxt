@@ -1,14 +1,14 @@
 <template>
-  <div>
-    <div v-if="isSignupMode">
+  <div class="text-center">
+    <template v-if="isSignupMode">
       <signup-form></signup-form>
-      <button @click="changeMode()">Signin</button>
-    </div>
+      <p class="h6 mt-2" style="cursor: pointer" @click="changeMode()">アカウントをお持ちの方はこちら</p>
+    </template>
 
-    <div v-else>
+    <template v-else>
       <signin-form></signin-form>
-      <button @click="changeMode()">Signup</button>
-    </div>
+      <p class="h6 mt-2" style="cursor: pointer" @click="changeMode()">メールアドレスでの登録はこちら</p>
+    </template>
   </div>
 </template>
 
@@ -33,3 +33,9 @@ export default {
   }
 } 
 </script>
+
+<style scoped>
+.text-sm {
+  font-size: 12px;
+}
+</style>
