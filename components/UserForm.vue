@@ -64,6 +64,7 @@ export default {
         this.resetError()
         this.filmarks_user = null
         this.loading()
+        this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
         const data = await this.$axios.$get(`http://localhost:3000/api/v1/scrape/find_user`, { params: { searchId: this.searchId } })
         this.filmarks_user = data
         this.openModal()
