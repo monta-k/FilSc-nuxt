@@ -17,14 +17,11 @@ export const mutations = {
 }
 
 export const actions = {
-  async getUser({ commit }, payload) {
-    try{
-      const data = await this.$axios.$get(`http://localhost:3000/api/v1/users/show`, { params: { userId: userId } })
-      commit('setData', { data })
-    } catch (e) {
-      console.log(e)
-      commit('setError')
-    }
+  async setFilmarksId({ commit }, { searchId }) {
+    this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
+    console.log(searchId)
+    const data = await this.$axios.$patch(`http://localhost:3000/api/v1/users`, { user: { filmarks_id: searchId } })
+    commit('setUser', { payload: data })
   },
   setUser({ commit }, payload) {
     commit('setUser', { payload })

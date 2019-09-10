@@ -1,9 +1,7 @@
 <template>
   <div class="mt-3">
     <template v-if="user && user.filmarks_id">
-      <div>
-        idあり
-      </div>
+      <user-top></user-top>
     </template>
     <template v-else>
       <user-form></user-form>
@@ -14,6 +12,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import UserForm from '~/components/UserForm'
+import UserTop from '~/components/UserTop'
 
 export default {
   middleware: 'auth',
@@ -22,7 +21,8 @@ export default {
     ...mapGetters('users', ['user'])
   },
   components: {
-    UserForm
+    UserForm,
+    UserTop
   }
 }
 </script>

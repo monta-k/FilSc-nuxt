@@ -19,7 +19,7 @@
             <h4 class="h4">見つかったユーザー</h4>
           </div>
           <div class="col-12">
-            <a :href="filmarks_user.url">Filmarksのページへ</a>
+            <a :href="filmarks_user.url" target="_blank" rel="noopener">Filmarksのページへ</a>
           </div>
         </div>
       </template>
@@ -35,7 +35,7 @@
         </div>
       </template>
       <template slot="footer">
-        <button class="btn btn-dark">登録する</button>
+        <button class="btn btn-dark" @click="selectUser()">登録する</button>
         <button class="btn btn-dark" @click="closeModal()">キャンセル</button>
       </template>
     </modal-view>
@@ -58,6 +58,16 @@ export default {
     ...mapGetters(['errorMessage'])
   },
   methods: {
+    async selectUser() {
+      try {
+        this.loading()
+        this.setFilmarksId({ searchId: this.searchId })
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.notLoading()
+      }
+    },
     async search() {
       if (this.searchId === '') return
       try {
@@ -81,7 +91,8 @@ export default {
     closeModal() {
       this.modal = false
     },
-    ...mapActions(['loading', 'notLoading', 'setError', 'resetError'])
+    ...mapActions(['loading', 'notLoading', 'setError', 'resetError']),
+    ...mapActions('users', ['setFilmarksId'])
   },
   components: {
     ModalView
