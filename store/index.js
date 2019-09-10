@@ -2,14 +2,14 @@ export const state = () => ({
   isLoading: false,
   title: '',
   movies: null,
-  hasError: false,
+  errorMessage: '',
 })
 
 export const getters = {
   isLoading: (state) => state.isLoading,
   title: (state) => state.title,
   movies: (state) => state.movies,
-  hasError: (state) => state.hasError,
+  errorMessage: (state) => state.errorMessage,
 }
 
 export const mutations = {
@@ -27,11 +27,11 @@ export const mutations = {
     state.title = ''
     state.movies = null
   },
-  setError(state) {
-    state.hasError = true
+  setError(state, message) {
+    state.errorMessage = message
   },
   resetError(state) {
-    state.hasError = false
+    state.errorMessage = ''
   }
 }
 
@@ -41,6 +41,9 @@ export const actions = {
   },
   notLoading({ commit }) {
     commit('notLoading')
+  },
+  setError({ commit }, message) {
+    commit('setError', message)
   },
   resetError({ commit }) {
     commit('resetError')
