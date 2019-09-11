@@ -48,17 +48,16 @@ export const actions = {
   resetError({ commit }) {
     commit('resetError')
   },
-  async fetchData({ commit }, userId) {
+  resetClipMovies({ commit }) {
     commit('resetData')
-    commit('loading')
+  },
+  async fetchClipMovies({ commit }, { userId, page }) {
     try{
-      console.log(process.env.BASE_API)
-      const data = await this.$axios.$get(`${process.env.BASE_API}/api/v1`, { params: { userId: userId } })
-      commit('setData', { data })
+      this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
+      const data = await this.$axios.$get(`http://localhost:3000/api/v1/scrape/clip_movies`, { params: { userId: userId, page: page } })
+      return data
     } catch (e) {
       console.log(e)
-      commit('setError')
     }
-    commit('notLoading')
   }
 }
