@@ -9,6 +9,7 @@ export default ({ $axios, store, redirect }) => {
         const data = await $axios.$post('http://localhost:3000/api/v1/signin')
         await store.dispatch('users/setUser', data)
         localStorage.setItem('jwt', idToken.toString())
+        await store.dispatch('fetchUserMovies')
       }
     } else {
       return redirect('/signin')

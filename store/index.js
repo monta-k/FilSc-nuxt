@@ -45,6 +45,15 @@ export const actions = {
   resetError({ commit }) {
     commit('resetError')
   },
+  async fetchUserMovies({ commit }) {
+    try {
+      this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
+      const data = await this.$axios.$get('http://localhost:3000/api/v1/movies')
+      commit('setMovies', { movies: data })
+    } catch (e) {
+      console.log(e)
+    }
+  },
   async fetchClipMovies({ commit }, { userId, page }) {
     try{
       this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
@@ -65,8 +74,8 @@ export const actions = {
   async setClipMovies({ commit }, { movies }) {
     try {
 
-      await this.$axios.$post('http://localhost:3000/api/v1/movies', { movies: movies })
-      commit('setMovies', { movies: movies })
+      const data = await this.$axios.$post('http://localhost:3000/api/v1/movies', { movies: movies })
+      commit('setMovies', { movies: data })
     } catch (e) {
       console.log(e)
     }

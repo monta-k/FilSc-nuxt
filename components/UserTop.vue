@@ -26,8 +26,10 @@
       </template>
       <template slot="body">
         <div class="row">
-          <h4 class="h4" v-if="isFetching">{{ fetchingProcess }}</h4>
-          <h4 class="h4" v-if="!isFetching">映画情報を取得しました</h4>
+          <div class="col-12">
+            <h4 class="h4" v-if="isFetching">{{ fetchingProcess }}</h4>
+            <h4 class="h4" v-if="!isFetching">映画情報を取得しました</h4>
+          </div>
         </div>
       </template>
       <template slot="footer">
@@ -41,6 +43,7 @@
     <div class="row mt-5">
       <div class="col-12">
         <h4 class="h4 text-center">Clipした映画</h4>
+        <movies-list></movies-list>
       </div>
     </div>
   </div>
@@ -48,6 +51,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import MoviesList from '~/components/MoviesList'
 import ModalView from '~/components/ModalView'
 
 export default {
@@ -84,7 +88,6 @@ export default {
     fetchingProcess() {
       if (this.fetching.pages && this.fetching.current_page) return `${this.fetching.current_page}/${this.fetching.pages}`
     },
-    ...mapGetters(['movies']),
     ...mapGetters('users', ['user'])
   },
   methods: {
@@ -121,7 +124,8 @@ export default {
     ...mapActions(['loading', 'notLoading', 'fetchClipMovies', 'updateClipMoviesDB'])
   },
   components: {
-    ModalView
+    ModalView,
+    MoviesList
   }
 }
 </script>
