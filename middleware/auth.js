@@ -12,6 +12,9 @@ export default ({ $axios, store, redirect }) => {
         await store.dispatch('fetchUserMovies')
       }
     } else {
+      localStorage.removeItem('jwt')
+      store.commit('resetMovies')
+      store.commit('users/resetUser')
       return redirect('/signin')
     }
   })
