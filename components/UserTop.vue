@@ -76,7 +76,7 @@ export default {
     try {
       this.loading()
       this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
-      const data = await this.$axios.$get(`http://localhost:3000/api/v1/scrape/find_user`, { params: { searchId: this.user.filmarks_id } })
+      const data = await this.$axios.$get(`${process.env.BaseUrl}/scrape/find_user`, { params: { searchId: this.user.filmarks_id } })
       this.filmarks_profile = data
     } catch (e) {
       console.log(e)
@@ -100,7 +100,7 @@ export default {
         this.isFetching = true
         this.modal = true
         this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
-        const pageData = await this.$axios.$get(`http://localhost:3000/api/v1/scrape/clip_movies_page`, { params: { userId: this.user.filmarks_id } })
+        const pageData = await this.$axios.$get(`${process.env.BaseUrl}/scrape/clip_movies_page`, { params: { userId: this.user.filmarks_id } })
         this.fetching.pages = Number(pageData.pages)
         for (let i = 1; i < this.fetching.pages + 1; i++) {
           this.fetching.current_page = i

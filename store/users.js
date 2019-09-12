@@ -20,7 +20,7 @@ export const actions = {
   async setFilmarksId({ commit }, { searchId }) {
     this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
     console.log(searchId)
-    const data = await this.$axios.$patch(`http://localhost:3000/api/v1/users`, { user: { filmarks_id: searchId } })
+    const data = await this.$axios.$patch(`${process.env.BaseUrl}/users`, { user: { filmarks_id: searchId } })
     commit('setUser', { payload: data })
   },
   setUser({ commit }, payload) {

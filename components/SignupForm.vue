@@ -40,7 +40,7 @@ export default {
         const res = await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         const idToken = await res.user.getIdToken(true)
         this.$axios.setHeader('Authorization', idToken)
-        const result = await this.$axios.$post('http://localhost:3000/api/v1/signin', { name: this.name })
+        const result = await this.$axios.$post(`${process.env.BaseUrl}/signin`, { name: this.name })
         console.log(result)
         this.$router.push('/')
       } catch (e) {
