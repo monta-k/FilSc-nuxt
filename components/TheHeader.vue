@@ -1,6 +1,8 @@
 <template>
   <nav class="navbar navbar-dark bg-dark" style="height: 60px;">
-    <h2 class="app-title h2">FilSc</h2>
+    <nuxt-link to="/" style="text-decoration:none">
+      <h2 class="app-title h2 mb-0">FilSc</h2>
+    </nuxt-link>
     <button class="btn btn-rounded btn-dark" v-if="isAuthenticated" @click="signout">ログアウト</button>
   </nav>
 </template>
