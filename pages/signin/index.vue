@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import firebase from '~/plugins/firebase'
 import SigninForm from '~/components/SigninForm'
 import SignupForm from '~/components/SignupForm'
 
@@ -21,6 +22,13 @@ export default {
     return {
       isSignupMode: false
     }
+  },
+  async beforeCreate() {
+    const user = await firebase.auth().onAuthStateChanged(async (user) => {
+    if (user) {
+      this.$router.push('/')
+    }
+    })
   },
   methods: {
     changeMode() {
