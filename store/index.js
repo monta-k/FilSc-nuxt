@@ -1,7 +1,6 @@
 export const state = () => ({
   isLoading: false,
-  title: '',
-  movies: null,
+  movies: [],
   errorMessage: '',
 })
 
@@ -19,13 +18,11 @@ export const mutations = {
   notLoading(state) {
     state.isLoading = false
   },
-  setData(state, { data }) {
-    state.title = data.title
-    state.movies = data.movie
+  setMovies(state, { movies }) {
+    state.movies = movies
   },
-  resetData(state) {
-    state.title = ''
-    state.movies = null
+  resetMovies(state) {
+    state.movies = []
   },
   setError(state, message) {
     state.errorMessage = message
@@ -48,14 +45,39 @@ export const actions = {
   resetError({ commit }) {
     commit('resetError')
   },
-  resetClipMovies({ commit }) {
-    commit('resetData')
-  },
   async fetchClipMovies({ commit }, { userId, page }) {
     try{
       this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
       const data = await this.$axios.$get(`http://localhost:3000/api/v1/scrape/clip_movies`, { params: { userId: userId, page: page } })
       return data
+    } catch (e) {
+      console.log(e)
+    }
+  },
+  async resetClipMovies({ commit }) {
+    try {
+      await this.$axios.$delete('http://localhost:3000/api/v1/movies')
+      commit('resetMovies')
+    } catch (e) {
+      console.log(e)
+    }
+  },
+  async setClipMovies({ commit }, { movies }) {
+    try {
+
+      await this.$axios.$post('http://localhost:3000/api/v1/movies', { movies: movies })
+      commit('setMovies', { movies: movies })
+    } catch (e) {
+      console.log(e)
+    }
+  },
+  async updateClipMoviesDB({ dispatch }, { movies }) {
+    try {
+      this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
+      await dispatch('resetClipMovies')
+      console.log('reset movies')
+      await dispatch('setClipMovies', { movies: movies })
+      console.log('set movies')
     } catch (e) {
       console.log(e)
     }

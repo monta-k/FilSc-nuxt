@@ -12,7 +12,7 @@
         <a :href="filmarks_profile.url" target="_blank" rel="noopener">Filmarksのページへ</a>
       </div>
       <div class="col-6 text-center">
-        <button class="btn btn-dark" @click="updateClipMovie()">最新の状態に更新</button>
+        <button class="btn btn-dark" @click="fetchLatestClipMovies()">最新の状態に更新</button>
       </div>
     </div>
 
@@ -26,7 +26,14 @@
       </template>
       <template slot="body">
         <div class="row">
-          <h4 class="h4">{{ fetchingProcess }}</h4>
+          <h4 class="h4" v-if="isFetching">{{ fetchingProcess }}</h4>
+          <h4 class="h4" v-if="!isFetching">映画情報を取得しました</h4>
+        </div>
+      </template>
+      <template slot="footer">
+        <div v-if="!isFetching">
+          <button class="btn btn-dark" @click="updateClipMovies()">更新する</button>
+          <button class="btn btn-dark" @click="closeModal()">キャンセル</button>
         </div>
       </template>
     </modal-view>
@@ -57,6 +64,7 @@ export default {
         pages: null,
         current_page: null,
       },
+      isFetching: false,
       newMovies: []
     }
   },
@@ -80,26 +88,37 @@ export default {
     ...mapGetters('users', ['user'])
   },
   methods: {
-    async updateClipMovie() {
+    closeModal() {
+      this.modal = false
+    },
+    async fetchLatestClipMovies() {
       try {
+        this.newMovies = []
+        this.isFetching = true
         this.modal = true
         this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
         const pageData = await this.$axios.$get(`http://localhost:3000/api/v1/scrape/clip_movies_page`, { params: { userId: this.user.filmarks_id } })
         this.fetching.pages = Number(pageData.pages)
-        this.resetClipMovies()
         for (let i = 1; i < this.fetching.pages + 1; i++) {
           this.fetching.current_page = i
           const movieData = await this.fetchClipMovies({ userId: this.user.filmarks_id, page: i})
           this.newMovies = this.newMovies.concat(movieData.movies)
         }
         console.log(this.newMovies)
+        this.isFetching = false
+      } catch (e) {
+      }
+    },
+    async updateClipMovies() {
+      try {
+        this.updateClipMoviesDB({ movies: this.newMovies })
       } catch (e) {
         console.log(e)
       } finally {
-        this.modal = false
+        this.closeModal()
       }
     },
-    ...mapActions(['loading', 'notLoading', 'resetClipMovies', 'fetchClipMovies'])
+    ...mapActions(['loading', 'notLoading', 'fetchClipMovies', 'updateClipMoviesDB'])
   },
   components: {
     ModalView
