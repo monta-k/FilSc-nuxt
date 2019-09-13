@@ -5,11 +5,11 @@
   "author": "",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "build:prod": "cross-env NODE_ENV=\"production\" nuxt build",
-    "start": "nuxt start",
-    "start:prod": "cross-env NODE_ENV=\"production\" nuxt start",
+    "dev": "nuxt-ts",
+    "build": "nuxt-ts build",
+    "build:prod": "cross-env NODE_ENV=\"production\" nuxt-ts build",
+    "start": "nuxt-ts start",
+    "start:prod": "cross-env NODE_ENV=\"production\" nuxt-ts start",
     "generate": "nuxt generate"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.10.2",
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "@fortawesome/vue-fontawesome": "^0.1.7",
+    "@nuxt/typescript-runtime": "^0.1.5",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
@@ -27,8 +28,11 @@
     "node-sass": "^4.12.0",
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",
+    "nuxt-property-decorator": "^2.4.0",
     "sass-loader": "^8.0.0",
     "vue-loading-overlay": "^3.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@nuxt/typescript-build": "^0.2.6"
+  }
 }
