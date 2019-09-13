@@ -40,12 +40,7 @@ export default {
       try {
         this.loading()
         const provider = new firebase.auth.GoogleAuthProvider()
-        const res = await firebase.auth().signInWithPopup(provider)
-        const idToken = await res.user.getIdToken(true)
-        this.$axios.setHeader('Authorization', idToken)
-        const result = await this.$axios.$post(`${process.env.BaseUrl}/signin`)
-        console.log(result)
-        this.$router.push('/')
+        await firebase.auth().signInWithPopup(provider)
       } catch (e) {
         console.log(e)
       } finally {
@@ -55,12 +50,7 @@ export default {
     async signin() {
       try {
         this.loading()
-        const res = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        const idToken = await res.user.getIdToken(true)
-        this.$axios.setHeader('Authorization', idToken)
-        const result = await this.$axios.$post(`${process.env.BaseUrl}/signin`)
-        console.log(result)
-        this.$router.push('/')
+        await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
       } catch (e) {
         console.log(e)
       } finally {

@@ -28,7 +28,7 @@ import { mapActions } from 'vuex'
 export default {
   data() {
     return {
-      name: '',
+      name: null,
       email: '',
       password: '',
     }
@@ -37,18 +37,15 @@ export default {
     async signup() {
       try {
         this.loading()
-        const res = await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-        const idToken = await res.user.getIdToken(true)
-        this.$axios.setHeader('Authorization', idToken)
-        const result = await this.$axios.$post(`${process.env.BaseUrl}/signin`, { name: this.name })
-        console.log(result)
-        this.$router.push('/')
+        this.setNewUserName(this.name)
+        await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
       } catch (e) {
         console.log(e)
       } finally {
         this.notLoading()
       }
     },
+    ...mapActions('users', ['setNewUserName']),
     ...mapActions(['loading', 'notLoading'])
   }
 }

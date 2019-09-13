@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import MovieContent from '~/components/MovieContent'
 
 export default {
@@ -25,6 +25,9 @@ export default {
       narrowLengthEnd: 999
     }
   },
+  mounted() {
+    this.fetchUserMovies()
+  },
   computed: {
     narrowedMovies() {
       if (this.hideUndecidedLength) {
@@ -34,6 +37,9 @@ export default {
       }
     },
     ...mapGetters(['movies'])
+  },
+  methods: {
+  ...mapActions(['fetchUserMovies'])    
   },
   components: {
     MovieContent

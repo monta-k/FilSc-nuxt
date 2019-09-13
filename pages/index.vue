@@ -15,7 +15,6 @@ import UserForm from '~/components/UserForm'
 import UserTop from '~/components/UserTop'
 
 export default {
-  middleware: 'auth',
   computed: {
     ...mapGetters(['isLoading', 'title', 'movies']),
     ...mapGetters('users', ['user'])

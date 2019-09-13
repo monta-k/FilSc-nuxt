@@ -23,13 +23,6 @@ export default {
       isSignupMode: false
     }
   },
-  async beforeCreate() {
-    const user = await firebase.auth().onAuthStateChanged(async (user) => {
-    if (user) {
-      this.$router.push('/')
-    }
-    })
-  },
   methods: {
     changeMode() {
       this.isSignupMode = !this.isSignupMode

@@ -19,8 +19,6 @@ export default {
     async signout() {
       try {
         await firebase.auth().signOut()
-        this.resetUser()
-        this.$router.push('/signin')
         console.log('signout')
       } catch (e) {
         console.log(e)

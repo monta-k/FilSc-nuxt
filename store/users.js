@@ -1,9 +1,11 @@
 export const state = () => ({
-  user: null
+  user: null,
+  newUserName: null,
 })
 
 export const getters = {
   user: (state) => state.user,
+  newUserName: (state) => state.newUserName,
   isAuthenticated: (state) => !!state.user
 }
 
@@ -13,10 +15,26 @@ export const mutations = {
   },
   resetUser(state) {
     state.user = null
+  },
+  setNewUserName(state, name) {
+    state.newUserName = name
+  },
+  resetNewUserName(state) {
+    state.newUserName = null
   }
 }
 
 export const actions = {
+  async signinUser({ commit }, { newName }) {
+    this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
+    const payload = await this.$axios.$post(`${process.env.BaseUrl}/signin`, { name: newName})
+    commit('setUser', { payload })
+    this.$router.push('/')
+  },
+  signoutUser({ commit }) {
+    commit('resetUser')
+    this.$router.push('/signin')
+  },
   async setFilmarksId({ commit }, { searchId }) {
     this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
     console.log(searchId)
@@ -28,5 +46,11 @@ export const actions = {
   },
   resetUser({ commit }) {
     commit('resetUser')
+  },
+  setNewUserName({ commit }, name) {
+    commit('setNewUserName', name)
+  },
+  resetNewUserName({ commit }) {
+    commit('resetNewUserName')
   }
 }
