@@ -16,6 +16,7 @@
         <input type="password" placeholder="Password" class="form-control" v-model="password">
       </div>
     </form>
+    <p class="text-danger mb-2">{{ errorMessage }}</p>
     <button class="btn btn-dark" @click="signin()">
       <font-awesome-icon :icon="['fas','envelope']" />
       |
@@ -26,13 +27,14 @@
 
 <script>
 import firebase from '~/plugins/firebase'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
     return {
       email: '',
       password: '',
+      errorMessage: null,
     }
   },
   methods: {
@@ -49,13 +51,28 @@ export default {
     },
     async signin() {
       try {
+        this.errorMessage = null
         this.loading()
+        if (this.isInvalid()) {
+          return
+        }
         await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
       } catch (e) {
-        console.log(e)
+        if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-email') {
+          this.errorMessage = 'メールアドレスまたはパスワードが間違っています。'
+        }
       } finally {
         this.notLoading()
       }
+    },
+    isInvalid() {
+      if (this.email === '') {
+        return this.errorMessage = 'メールアドレスが入力されていません'
+      }
+      if (this.password === '') {
+        return this.errorMessage = 'パスワードが入力されていません'
+      }
+      return false
     },
     ...mapActions('users', ['setUser']),
     ...mapActions(['loading', 'notLoading'])

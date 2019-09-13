@@ -2,12 +2,12 @@
   <div class="text-center">
     <template v-if="isSignupMode">
       <signup-form></signup-form>
-      <p class="h6 mt-2" style="cursor: pointer" @click="changeMode()">アカウントをお持ちの方はこちら</p>
+      <p class="h6 mt-2 d-inline-block" style="cursor: pointer" @click="changeMode()">アカウントをお持ちの方はこちら</p>
     </template>
 
     <template v-else>
       <signin-form></signin-form>
-      <p class="h6 mt-2" style="cursor: pointer" @click="changeMode()">メールアドレスでの登録はこちら</p>
+      <p class="h6 mt-2 d-inline-block" style="cursor: pointer" @click="changeMode()">メールアドレスでの登録はこちら</p>
     </template>
   </div>
 </template>

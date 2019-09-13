@@ -14,6 +14,7 @@
         <input type="password" class="form-control" id="password" v-model="password">
       </div>
     </form>
+    <p class="text-danger mb-2">{{ errorMessage }}</p>
     <button class="btn btn-dark" @click="signup()">
       <font-awesome-icon :icon="['fas','check']" />
       ユーザー登録する
@@ -31,19 +32,38 @@ export default {
       name: null,
       email: '',
       password: '',
+      errorMessage: null,
     }
   },
   methods: {
     async signup() {
       try {
+        this.errorMessage = null
         this.loading()
+        if (this.isInvalid()) {
+          return
+        }
         this.setNewUserName(this.name)
         await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
       } catch (e) {
-        console.log(e)
+        if (e.code === 'auth/email-already-in-use' || e.code === 'auth/invalid-email') {
+          this.errorMessage = '無効なメールアドレスです'
+        }
       } finally {
         this.notLoading()
       }
+    },
+    isInvalid() {
+      if (this.name === null) {
+        return this.errorMessage = '名前が未入力です'
+      }
+      if (this.email === '') {
+        return this.errorMessage = 'メールアドレスが未入力です'
+      }
+      if (this.password === '') {
+        return this.errorMessage = 'パスワードが未入力です'
+      }
+      return false
     },
     ...mapActions('users', ['setNewUserName']),
     ...mapActions(['loading', 'notLoading'])
