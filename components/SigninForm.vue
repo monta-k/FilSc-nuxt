@@ -25,57 +25,60 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
 import firebase from '~/plugins/firebase'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
-export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      errorMessage: null,
-    }
-  },
+@Component({
   methods: {
-    async googleSignin() {
-      try {
-        this.loading()
-        const provider = new firebase.auth.GoogleAuthProvider()
-        await firebase.auth().signInWithPopup(provider)
-      } catch (e) {
-        console.log(e)
-      } finally {
-        this.notLoading()
-      }
-    },
-    async signin() {
-      try {
-        this.errorMessage = null
-        this.loading()
-        if (this.isInvalid()) {
-          return
-        }
-        await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-      } catch (e) {
-        if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-email') {
-          this.errorMessage = 'メールアドレスまたはパスワードが間違っています。'
-        }
-      } finally {
-        this.notLoading()
-      }
-    },
-    isInvalid() {
-      if (this.email === '') {
-        return this.errorMessage = 'メールアドレスが入力されていません'
-      }
-      if (this.password === '') {
-        return this.errorMessage = 'パスワードが入力されていません'
-      }
-      return false
-    },
     ...mapActions('users', ['setUser']),
     ...mapActions(['loading', 'notLoading'])
+  }
+})
+
+export default class extends Vue {
+  email: string = ''
+  password: string = ''
+  errorMessage: string | null = null
+
+  loading!: () => void
+  notLoading!: () => void
+  async googleSignin() {
+    try {
+      this.loading()
+      const provider = new firebase.auth.GoogleAuthProvider()
+      await firebase.auth().signInWithPopup(provider)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.notLoading()
+    }
+  }
+  async signin() {
+    try {
+      this.errorMessage = null
+      this.loading()
+      if (this.isInvalid()) {
+        return
+      }
+      await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+    } catch (e) {
+      if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-email') {
+        this.errorMessage = 'メールアドレスまたはパスワードが間違っています。'
+      }
+    } finally {
+      this.notLoading()
+    }
+  }
+  isInvalid(): string | false {
+    if (this.email === '') {
+      return this.errorMessage = 'メールアドレスが入力されていません'
+    }
+    if (this.password === '') {
+      return this.errorMessage = 'パスワードが入力されていません'
+    }
+    return false
   }
 }
 </script>
