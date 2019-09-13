@@ -22,51 +22,56 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
 import firebase from '~/plugins/firebase'
 import { mapActions } from 'vuex'
 
-export default {
-  data() {
-    return {
-      name: null,
-      email: '',
-      password: '',
-      errorMessage: null,
-    }
-  },
+@Component({
   methods: {
-    async signup() {
-      try {
-        this.errorMessage = null
-        this.loading()
-        if (this.isInvalid()) {
-          return
-        }
-        this.setNewUserName(this.name)
-        await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-      } catch (e) {
-        if (e.code === 'auth/email-already-in-use' || e.code === 'auth/invalid-email') {
-          this.errorMessage = '無効なメールアドレスです'
-        }
-      } finally {
-        this.notLoading()
-      }
-    },
-    isInvalid() {
-      if (this.name === null) {
-        return this.errorMessage = '名前が未入力です'
-      }
-      if (this.email === '') {
-        return this.errorMessage = 'メールアドレスが未入力です'
-      }
-      if (this.password === '') {
-        return this.errorMessage = 'パスワードが未入力です'
-      }
-      return false
-    },
     ...mapActions('users', ['setNewUserName']),
     ...mapActions(['loading', 'notLoading'])
+  }
+})
+
+export default class extends Vue {
+  name: string | null = null
+  email: string = ''
+  password: string = ''
+  errorMessage: string | null = null
+
+  setNewUserName!: (name: string | null) => void
+  loading!: () => void
+  notLoading!: () => void
+
+  async signup() {
+    try {
+      this.errorMessage = null
+      this.loading()
+      if (this.isInvalid()) {
+        return
+      }
+      this.setNewUserName(this.name)
+      await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+    } catch (e) {
+      if (e.code === 'auth/email-already-in-use' || e.code === 'auth/invalid-email') {
+        this.errorMessage = '無効なメールアドレスです'
+      }
+    } finally {
+      this.notLoading()
+    }
+  }
+  isInvalid() {
+    if (this.name === null) {
+      return this.errorMessage = '名前が未入力です'
+    }
+    if (this.email === '') {
+      return this.errorMessage = 'メールアドレスが未入力です'
+    }
+    if (this.password === '') {
+      return this.errorMessage = 'パスワードが未入力です'
+    }
+    return false
   }
 }
 </script>

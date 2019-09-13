@@ -12,27 +12,25 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
 import firebase from '~/plugins/firebase'
-import SigninForm from '~/components/SigninForm'
-import SignupForm from '~/components/SignupForm'
+import SigninForm from '~/components/SigninForm.vue'
+import SignupForm from '~/components/SignupForm.vue'
 
-export default {
-  data() {
-    return {
-      isSignupMode: false
-    }
-  },
-  methods: {
-    changeMode() {
-      this.isSignupMode = !this.isSignupMode
-    }
-  },
+@Component({
   components: {
     SigninForm,
     SignupForm
   }
-} 
+})
+export default class extends Vue {
+  isSignupMode: Boolean = false
+
+  changeMode(): void {
+    this.isSignupMode = !this.isSignupMode
+  }
+}
 </script>
 
 <style scoped>
