@@ -82,5 +82,16 @@ export default {
     }
   },
   buildModules: ['@nuxt/typescript-build'],
-  env: envSet
+  env: envSet,
+  manifest: {
+    name: "FilSc",
+    title: "FilSc",
+    'og:title': 'FilSc',
+    description: 'ちょっと時間が空いた時にスッキリハマる映画をFilmarksからすぐに探したいですよね。そんなあなたのためのサービスです。',
+    'og:description': 'ちょっと時間が空いた時にスッキリハマる映画をFilmarksからすぐに探したいですよね。そんなあなたのためのサービスです。',
+    lang: 'ja',
+    display: "standalone",
+    scope: '/',
+    start_url: '/'
+  }
 }
