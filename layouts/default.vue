@@ -2,7 +2,7 @@
   <div>
     <the-header></the-header>
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
-    <div class="container">
+    <div class="container" style="padding-top: 60px;">
       <nuxt />
     </div>
   </div>
