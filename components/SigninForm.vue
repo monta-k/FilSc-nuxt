@@ -28,37 +28,31 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import firebase from '~/plugins/firebase'
-import { mapActions } from 'vuex'
+import * as Vuex from 'vuex'
 
-@Component({
-  methods: {
-    ...mapActions('users', ['setUser']),
-    ...mapActions(['loading', 'notLoading'])
-  }
-})
+@Component({})
 
 export default class extends Vue {
+  $store!: Vuex.ExStore
   email: string = ''
   password: string = ''
   errorMessage: string | null = null
 
-  loading!: () => void
-  notLoading!: () => void
   async googleSignin() {
     try {
-      this.loading()
+      this.$store.dispatch('loading')
       const provider = new firebase.auth.GoogleAuthProvider()
       await firebase.auth().signInWithPopup(provider)
     } catch (e) {
       console.log(e)
     } finally {
-      this.notLoading()
+      this.$store.dispatch('notLoading')
     }
   }
   async signin() {
     try {
       this.errorMessage = null
-      this.loading()
+      this.$store.dispatch('loading')
       if (this.isInvalid()) {
         return
       }
@@ -68,7 +62,7 @@ export default class extends Vue {
         this.errorMessage = 'メールアドレスまたはパスワードが間違っています。'
       }
     } finally {
-      this.notLoading()
+      this.$store.dispatch('notLoading')
     }
   }
   isInvalid(): string | false {

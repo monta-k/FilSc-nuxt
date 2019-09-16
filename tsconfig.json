@@ -9,6 +9,7 @@
       "dom"
     ],
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "allowJs": true,
     "sourceMap": true,
     "strict": true,
@@ -25,9 +26,9 @@
     "types": [
       "@types/node",
       "@nuxt/types",
+      "./types/vuex",
       "@nuxtjs/axios"
-    ],
-    "experimentalDecorators": true
+    ]
   },
   "exclude": [
     "node_modules"
