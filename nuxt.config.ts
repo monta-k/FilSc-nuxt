@@ -78,8 +78,6 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
-    }
   },
   buildModules: ['@nuxt/typescript-build'],
   env: envSet,
