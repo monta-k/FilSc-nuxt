@@ -1,6 +1,6 @@
 import 'vuex'
-import * as Users from '../store/users/type'
-import * as General from '../store/type'
+import * as Users from '../../store/users/type'
+import * as General from '../../store/type'
 
 declare module 'vuex' {
   type RootState = {

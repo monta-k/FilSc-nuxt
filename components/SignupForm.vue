@@ -25,40 +25,32 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import firebase from '~/plugins/firebase'
-import { mapActions } from 'vuex'
+import * as Vuex from 'vuex'
 
-@Component({
-  methods: {
-    ...mapActions('users', ['setNewUserName']),
-    ...mapActions(['loading', 'notLoading'])
-  }
-})
+@Component({})
 
 export default class extends Vue {
+  $store!: Vuex.ExStore
   name: string | null = null
   email: string = ''
   password: string = ''
   errorMessage: string | null = null
 
-  setNewUserName!: (name: string | null) => void
-  loading!: () => void
-  notLoading!: () => void
-
   async signup() {
     try {
       this.errorMessage = null
-      this.loading()
+      this.$store.dispatch('loading')
       if (this.isInvalid()) {
         return
       }
-      this.setNewUserName(this.name)
+      this.$store.dispatch('users/setNewUserName', this.name)
       await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
     } catch (e) {
       if (e.code === 'auth/email-already-in-use' || e.code === 'auth/invalid-email') {
         this.errorMessage = '無効なメールアドレスです'
       }
     } finally {
-      this.notLoading()
+      this.$store.dispatch('notLoading')
     }
   }
   isInvalid() {

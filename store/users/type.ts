@@ -28,7 +28,7 @@ export interface RG {
 export interface M {
   setUser: { payload: User }
   resetUser: void
-  setNewUserName: string
+  setNewUserName: string | null
   resetNewUserName: void
 }
 
@@ -45,7 +45,7 @@ export interface A {
   setFilmarksId: { searchId: string }
   setUser: User
   resetUser: void
-  setNewUserName: string
+  setNewUserName: string | null
   resetNewUserName: void
 }
 
