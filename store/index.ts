@@ -1,17 +1,20 @@
-export const state = () => ({
+import Vue from 'vue'
+import { Getters, Mutations, Actions } from 'vuex'
+import { S, G, M, A } from './type'
+
+export const state = (): S => ({
   isLoading: false,
   movies: [],
   errorMessage: '',
 })
 
-export const getters = {
+export const getters: Getters<S, G> = {
   isLoading: (state) => state.isLoading,
-  title: (state) => state.title,
   movies: (state) => state.movies,
   errorMessage: (state) => state.errorMessage,
 }
 
-export const mutations = {
+export const mutations: Mutations<S, M> = {
   loading(state) {
     state.isLoading = true
   },
@@ -32,7 +35,7 @@ export const mutations = {
   }
 }
 
-export const actions = {
+export const actions: Actions<S, A, G, M> = {
   loading({ commit }) {
     commit('loading')
   },
@@ -45,25 +48,25 @@ export const actions = {
   resetError({ commit }) {
     commit('resetError')
   },
-  async fetchUserMovies({ commit }) {
+  async fetchUserMovies(this: Vue, { commit }) {
     try {
-      this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
+      this.$axios.setHeader('Authorization', localStorage.getItem('jwt') || false)
       const data = await this.$axios.$get(`${process.env.BaseUrl}/movies`)
       commit('setMovies', { movies: data })
     } catch (e) {
       console.log(e)
     }
   },
-  async fetchClipMovies({ commit }, { userId, page }) {
+  async fetchClipMovies(this: Vue, { commit }, { userId, page }) {
     try{
-      this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
+      this.$axios.setHeader('Authorization', localStorage.getItem('jwt') || false)
       const data = await this.$axios.$get(`${process.env.BaseUrl}/scrape/clip_movies`, { params: { userId: userId, page: page } })
       return data
     } catch (e) {
       console.log(e)
     }
   },
-  async resetClipMovies({ commit }) {
+  async resetClipMovies(this: Vue, { commit }) {
     try {
       await this.$axios.$delete(`${process.env.BaseUrl}/movies`)
       commit('resetMovies')
@@ -71,7 +74,7 @@ export const actions = {
       console.log(e)
     }
   },
-  async setClipMovies({ commit }, { movies }) {
+  async setClipMovies(this: Vue, { commit }, { movies }) {
     try {
 
       const data = await this.$axios.$post(`${process.env.BaseUrl}/movies`, { movies: movies })
@@ -80,9 +83,9 @@ export const actions = {
       console.log(e)
     }
   },
-  async updateClipMoviesDB({ dispatch }, { movies }) {
+  async updateClipMoviesDB(this: Vue, { dispatch }, { movies }) {
     try {
-      this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
+      this.$axios.setHeader('Authorization', localStorage.getItem('jwt') || false)
       await dispatch('resetClipMovies')
       console.log('reset movies')
       await dispatch('setClipMovies', { movies: movies })
