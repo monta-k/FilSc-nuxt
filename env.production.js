@@ -1,3 +1,3 @@
 module.exports = {
-  BaseUrl: 'https://filsc.herokuapp.com/api/v1'
+  BaseUrl: process.env.BASE_URL
 }
