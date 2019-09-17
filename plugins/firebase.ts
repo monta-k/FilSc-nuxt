@@ -1,13 +1,13 @@
 import firebase from 'firebase'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCFFiq8zXWwMA3hfc0teQqXXC31cpGovlw",
-  authDomain: "filsc-34ad4.firebaseapp.com",
-  databaseURL: "https://filsc-34ad4.firebaseio.com",
-  projectId: "filsc-34ad4",
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.PROJECT_ID,
   storageBucket: "",
-  messagingSenderId: "568941113064",
-  appId: "1:568941113064:web:b9c9528182b63304"
+  messagingSenderId: process.env.MESSAGEING_SENDER_ID,
+  appId: process.env.APP_ID
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
