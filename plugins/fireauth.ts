@@ -1,6 +1,7 @@
-import firebase from '~/plugins/firebase'
+import firebase from '~/plugins/firebase.ts'
+import { Context } from '@nuxt/types'
 
-export default (context) => {
+export default (context: Context) => {
   const { store } = context
 
   return new Promise((resolve, reject) => {

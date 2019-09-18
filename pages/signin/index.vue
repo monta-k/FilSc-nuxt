@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import firebase from '~/plugins/firebase'
+import firebase from '~/plugins/firebase.ts'
 import SigninForm from '~/components/SigninForm.vue'
 import SignupForm from '~/components/SignupForm.vue'
 
