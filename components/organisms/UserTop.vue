@@ -1,17 +1,9 @@
 <template>
   <div>
-    <div class="row">
-      <div class="col-4">
-        <img :src="filmarks_profile.profile_image" alt="カバー画像">
-      </div>
-      <div class="col-8">
-        <h5 class="h5">{{ filmarks_profile.profile_name }}</h5>
-        <h5 class="h5">{{ filmarks_profile.profile_id }}</h5>
-        <a class="text-dark d-block mt-3" :href="filmarks_profile.url" target="_blank" rel="noopener" style="text-decoration:none;">Filmarksページへ</a>
-      </div>
-      <div class="col-12 text-center mt-5">
-        <app-button @click="fetchLatestClipMovies()">最新の状態に更新</app-button>
-      </div>
+    <user-card :filmarks_profile="filmarks_profile"></user-card>
+
+    <div class="text-center mt-5">
+      <app-button @click="fetchLatestClipMovies()">最新の状態に更新</app-button>
     </div>
 
     <modal-view v-if="modal">
@@ -49,18 +41,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import MoviesList from '~/components/MoviesList.vue'
+import MoviesList from '~/components/organisms/MoviesList.vue'
 import ModalView from '~/components/atoms/ModalView.vue'
 import AppButton from '~/components/atoms/AppButton.vue'
+import UserCard, { FilmarksProfile } from '~/components/molecules/UserCard.vue'
 import * as Vuex from 'vuex'
 import { Movie } from '~/store/type'
 
-interface FilmarksProfile {
-  url: string
-  profile_image: string
-  profile_name: string
-  profile_id: string
-}
 interface Fetching {
   pages: number | null
   current_page: number | null
@@ -70,7 +57,8 @@ interface Fetching {
   components: {
     ModalView,
     MoviesList,
-    AppButton
+    AppButton,
+    UserCard
   }
 })
 
@@ -127,7 +115,6 @@ export default class extends Vue {
             const movieData = await this.$store.dispatch('fetchClipMovies', { userId: this.$store.getters['users/user'].filmarks_id, page: i})
             this.newMovies = this.newMovies.concat(movieData.movies)
           }
-          console.log(this.newMovies)
           this.isFetching = false
         }
       } catch (e) {

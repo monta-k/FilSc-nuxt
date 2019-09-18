@@ -1,25 +1,23 @@
 <template>
-  <div class="signup-card">
-    <form class="md-w50">
-      <div class="form-group text-left">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" v-model="name">
-      </div>
-      <div class="form-group text-left">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" v-model="email">
-      </div>
-      <div class="form-group text-left">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" v-model="password">
-      </div>
-    </form>
+  <form class="md-w50">
+    <div class="form-group text-left">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" v-model="name">
+    </div>
+    <div class="form-group text-left">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" v-model="email">
+    </div>
+    <div class="form-group text-left">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" v-model="password">
+    </div>
     <p class="text-danger mb-2">{{ errorMessage }}</p>
-    <app-button @click="signup()">
+    <app-button @click.prevent="signup()">
       <font-awesome-icon :icon="['fas','check']" />
       ユーザー登録する
     </app-button>
-  </div>
+  </form>
 </template>
 
 <script lang="ts">
@@ -72,20 +70,3 @@ export default class extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.signup-card {
-  padding: 30px 10px;
-  border: solid 0.2px gray;
-  border-radius: 10px;
-  background-color: #eee;
-  margin-top: 100px;
-}
-
-@media screen and (min-width: 767px) {
-  .md-w50 {
-    width: 50%;
-    margin: auto;
-  }
-}
-</style>
