@@ -1,5 +1,5 @@
 <template>
-  <div class="row mt-3">
+  <div class="row mt-3 mb-3">
     <div class="col-12">
       <input type="checkbox" value="true" id="lengthToggle" v-model="hideUndecidedLength">
       <label class="mr-2 align-middle" for="lengthToggle">
@@ -9,7 +9,7 @@
       <p class="d-inline-block align-middle">〜</p>
       <input type="number" v-model="narrowLengthEnd" min="0" max="999"><p class="d-inline-block align-middle">分</p>
     </div>
-    <movie-content class="col-md-4 col-12 mt-3" v-for="(movie, index) in narrowedMovies" :key="index" :movie="movie"></movie-content>
+    <movie-content class="col-md-3 col-6 mt-3" v-for="(movie, index) in narrowedMovies" :key="index" :movie="movie"></movie-content>
   </div>
 </template>
 

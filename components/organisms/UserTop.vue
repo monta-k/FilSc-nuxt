@@ -115,9 +115,12 @@ export default class extends Vue {
             const movieData = await this.$store.dispatch('fetchClipMovies', { userId: this.$store.getters['users/user'].filmarks_id, page: i})
             this.newMovies = this.newMovies.concat(movieData.movies)
           }
-          this.isFetching = false
         }
       } catch (e) {
+      } finally {
+        this.isFetching = false
+        this.fetching.pages = null
+        this.fetching.current_page = null
       }
     }
     async updateClipMovies() {
