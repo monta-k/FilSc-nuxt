@@ -13,36 +13,38 @@
   </div>
 </template>
 
-<script>
-import { mapGetters, mapActions } from 'vuex'
-import MovieContent from '~/components/MovieContent'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import MovieContent from '~/components/MovieContent.vue'
+import * as Vuex from 'vuex'
 
-export default {
-  data() {
-    return {
-      hideUndecidedLength: false,
-      narrowLengthStart: 0,
-      narrowLengthEnd: 999
-    }
-  },
-  mounted() {
-    this.fetchUserMovies()
-  },
-  computed: {
-    narrowedMovies() {
-      if (this.hideUndecidedLength) {
-        return this.movies.filter(movie => movie.length >= this.narrowLengthStart && movie.length <= this.narrowLengthEnd && movie.length !== 0)
-      } else {
-        return this.movies.filter(movie => movie.length >= this.narrowLengthStart && movie.length <= this.narrowLengthEnd)
-      }
-    },
-    ...mapGetters(['movies'])
-  },
-  methods: {
-  ...mapActions(['fetchUserMovies'])    
-  },
+@Component({
   components: {
     MovieContent
+  }
+})
+
+export default class extends Vue {
+  $store!: Vuex.ExStore
+
+  hideUndecidedLength: boolean = false
+  narrowLengthStart: number = 0
+  narrowLengthEnd: number = 999
+
+  mounted() {
+    this.$store.dispatch('fetchUserMovies')
+  }
+
+  get movies() {
+    return this.$store.getters['movies']
+  }
+
+  get narrowedMovies() {
+    if (this.hideUndecidedLength) {
+      return this.movies.filter(movie => movie.length >= this.narrowLengthStart && movie.length <= this.narrowLengthEnd && movie.length !== 0)
+    } else {
+      return this.movies.filter(movie => movie.length >= this.narrowLengthStart && movie.length <= this.narrowLengthEnd)
+    }
   }
 }
 </script>

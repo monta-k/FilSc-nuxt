@@ -49,83 +49,98 @@
   </div>
 </template>
 
-<script>
-import { mapGetters, mapActions } from 'vuex'
-import MoviesList from '~/components/MoviesList'
-import ModalView from '~/components/ModalView'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import MoviesList from '~/components/MoviesList.vue'
+import ModalView from '~/components/ModalView.vue'
+import * as Vuex from 'vuex'
+import { Movie } from '~/store/type'
 
-export default {
-  data() {
-    return {
-      filmarks_profile: {
-        url: '',
-        profile_image: '',
-        profile_name: '',
-        profile_id: '',
-      },
-      modal: false,
-      fetching: {
-        pages: null,
-        current_page: null,
-      },
-      isFetching: false,
-      newMovies: []
-    }
-  },
+interface FilmarksProfile {
+  url: string
+  profile_image: string
+  profile_name: string
+  profile_id: string
+}
+interface Fetching {
+  pages: number | null
+  current_page: number | null
+}
+
+@Component({
+  components: {
+    ModalView,
+    MoviesList
+  }
+})
+
+export default class extends Vue {
+  $store!: Vuex.ExStore
+
+  filmarks_profile: FilmarksProfile = {
+    url: '',
+    profile_image: '',
+    profile_name: '',
+    profile_id: ''
+  }
+  modal: boolean = false
+  fetching: Fetching = {
+    pages: null,
+    current_page: null
+  }
+  isFetching: boolean = false
+  newMovies: Array<Movie> = []
+
   async mounted() {
     try {
-      this.loading()
-      this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
-      const data = await this.$axios.$get(`${process.env.BaseUrl}/scrape/find_user`, { params: { searchId: this.user.filmarks_id } })
-      this.filmarks_profile = data
+      this.$store.dispatch('loading')
+      if (this.$store.getters['users/user']) {
+        this.$axios.setHeader('Authorization', localStorage.getItem('jwt') || false)
+        const data = await this.$axios.$get(`${process.env.BaseUrl}/scrape/find_user`, { params: { searchId: this.$store.getters['users/user'].filmarks_id } })
+        this.filmarks_profile = data
+      }
     } catch (e) {
       console.log(e)
     } finally {
-      this.notLoading()
+      this.$store.dispatch('notLoading')
     }
-  },
-  computed: {
-    fetchingProcess() {
-      if (this.fetching.pages && this.fetching.current_page) return `${this.fetching.current_page}/${this.fetching.pages}`
-    },
-    ...mapGetters('users', ['user'])
-  },
-  methods: {
-    closeModal() {
+  }
+
+  get fetchingProcess() {
+    if (this.fetching.pages && this.fetching.current_page) return `${this.fetching.current_page}/${this.fetching.pages}`
+  }
+
+  closeModal() {
       this.modal = false
-    },
+    }
     async fetchLatestClipMovies() {
       try {
-        this.newMovies = []
-        this.isFetching = true
-        this.modal = true
-        this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
-        const pageData = await this.$axios.$get(`${process.env.BaseUrl}/scrape/clip_movies_page`, { params: { userId: this.user.filmarks_id } })
-        this.fetching.pages = Number(pageData.pages)
-        for (let i = 1; i < this.fetching.pages + 1; i++) {
-          this.fetching.current_page = i
-          const movieData = await this.fetchClipMovies({ userId: this.user.filmarks_id, page: i})
-          this.newMovies = this.newMovies.concat(movieData.movies)
+        if (this.$store.getters['users/user']) {
+          this.newMovies = []
+          this.isFetching = true
+          this.modal = true
+          this.$axios.setHeader('Authorization', localStorage.getItem('jwt') || false)
+          const pageData = await this.$axios.$get(`${process.env.BaseUrl}/scrape/clip_movies_page`, { params: { userId: this.$store.getters['users/user'].filmarks_id } })
+          this.fetching.pages = Number(pageData.pages)
+          for (let i = 1; i < this.fetching.pages + 1; i++) {
+            this.fetching.current_page = i
+            const movieData = await this.$store.dispatch('fetchClipMovies', { userId: this.$store.getters['users/user'].filmarks_id, page: i})
+            this.newMovies = this.newMovies.concat(movieData.movies)
+          }
+          console.log(this.newMovies)
+          this.isFetching = false
         }
-        console.log(this.newMovies)
-        this.isFetching = false
       } catch (e) {
       }
-    },
+    }
     async updateClipMovies() {
       try {
-        this.updateClipMoviesDB({ movies: this.newMovies })
+        this.$store.dispatch('updateClipMoviesDB', { movies: this.newMovies })
       } catch (e) {
         console.log(e)
       } finally {
         this.closeModal()
       }
-    },
-    ...mapActions(['loading', 'notLoading', 'fetchClipMovies', 'updateClipMoviesDB'])
-  },
-  components: {
-    ModalView,
-    MoviesList
-  }
+    }
 }
 </script>

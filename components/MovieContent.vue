@@ -13,15 +13,19 @@
   </a>
 </template>
 
-<script>
-export default {
-  props: {
-    movie: Object
-  },
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Movie } from '~/store/type'
+
+@Component({
   filters: {
-    movieLength: function (length) {
+    movieLength: function (length: number): string | number {
       return length === 0 ? '-' : length
-    },
+    }
   }
+})
+
+export default class extends Vue {
+  @Prop() movie!: Movie  
 }
 </script>
