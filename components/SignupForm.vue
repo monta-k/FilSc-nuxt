@@ -15,19 +15,24 @@
       </div>
     </form>
     <p class="text-danger mb-2">{{ errorMessage }}</p>
-    <button class="btn btn-dark" @click="signup()">
+    <app-button @click="signup()">
       <font-awesome-icon :icon="['fas','check']" />
       ユーザー登録する
-    </button>
+    </app-button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import firebase from '~/plugins/firebase.ts'
+import AppButton from '~/components/atoms/AppButton.vue'
 import * as Vuex from 'vuex'
 
-@Component({})
+@Component({
+  components: {
+    AppButton
+  }
+})
 
 export default class extends Vue {
   $store!: Vuex.ExStore

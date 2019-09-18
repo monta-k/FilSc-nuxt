@@ -6,11 +6,11 @@
     <div class="form-group">
       <input type="text" placeholder="FilmarksのIDを入力" class="form-control" v-model="searchId">
     </div>
-    <button class="btn btn-dark" @click="search()">
+    <app-button @click="search()">
       <font-awesome-icon :icon="['fas','search']" />
       |
       Filmarksアカウントを検索する
-    </button>
+    </app-button>
 
     <modal-view v-if="modal">
       <template slot="header">
@@ -35,8 +35,10 @@
         </div>
       </template>
       <template slot="footer">
-        <button class="btn btn-dark" @click="selectUser()">登録する</button>
-        <button class="btn btn-dark" @click="closeModal()">キャンセル</button>
+        <div class="text-center">
+          <app-button @click="selectUser()">登録する</app-button>
+          <app-button @click="closeModal()">キャンセル</app-button>
+        </div>
       </template>
     </modal-view>
   </div>
@@ -44,13 +46,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import ModalView from '~/components/ModalView.vue'
+import ModalView from '~/components/atoms/ModalView.vue'
+import AppButton from '~/components/atoms/AppButton.vue'
 import * as Vuex from 'vuex'
 import { User } from '~/store/users/type'
 
 @Component({
   components: {
-    ModalView
+    ModalView,
+    AppButton
   }
 })
 

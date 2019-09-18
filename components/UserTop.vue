@@ -7,19 +7,17 @@
       <div class="col-8">
         <h5 class="h5">{{ filmarks_profile.profile_name }}</h5>
         <h5 class="h5">{{ filmarks_profile.profile_id }}</h5>
+        <a class="text-dark d-block mt-3" :href="filmarks_profile.url" target="_blank" rel="noopener" style="text-decoration:none;">Filmarksページへ</a>
       </div>
-      <div class="col-6 text-center my-auto">
-        <a :href="filmarks_profile.url" target="_blank" rel="noopener">Filmarksのページへ</a>
-      </div>
-      <div class="col-6 text-center">
-        <button class="btn btn-dark" @click="fetchLatestClipMovies()">最新の状態に更新</button>
+      <div class="col-12 text-center mt-5">
+        <app-button @click="fetchLatestClipMovies()">最新の状態に更新</app-button>
       </div>
     </div>
 
     <modal-view v-if="modal">
       <template slot="header">
         <div class="row">
-          <div class="col-12">
+          <div class="col-12" v-if="isFetching">
             <h4 class="h4">データ取得中...</h4>
           </div>
         </div>
@@ -33,9 +31,9 @@
         </div>
       </template>
       <template slot="footer">
-        <div v-if="!isFetching">
-          <button class="btn btn-dark" @click="updateClipMovies()">更新する</button>
-          <button class="btn btn-dark" @click="closeModal()">キャンセル</button>
+        <div class="text-center" v-if="!isFetching">
+          <app-button @click="updateClipMovies()">更新する</app-button>
+          <app-button @click="closeModal()">キャンセル</app-button>
         </div>
       </template>
     </modal-view>
@@ -52,7 +50,8 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import MoviesList from '~/components/MoviesList.vue'
-import ModalView from '~/components/ModalView.vue'
+import ModalView from '~/components/atoms/ModalView.vue'
+import AppButton from '~/components/atoms/AppButton.vue'
 import * as Vuex from 'vuex'
 import { Movie } from '~/store/type'
 
@@ -70,7 +69,8 @@ interface Fetching {
 @Component({
   components: {
     ModalView,
-    MoviesList
+    MoviesList,
+    AppButton
   }
 })
 
