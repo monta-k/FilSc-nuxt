@@ -1,11 +1,9 @@
 <template>
-  <a class="text-dark" :href="movie.link" target='_blank'>
-    <div class="row">
-      <div class="col-4">
-        <img :src="movie.image" alt="" style="max-width: 90px;">
-      </div>
-      <div class="col-8">
-        <p>{{ movie.title }}</p>
+  <a class="text-dark text-center pr-1 pl-1" :href="movie.link" target='_blank' style="text-decoration:none;">
+    <div class="movie-card row">
+      <div class="col-12">
+        <img :src="movie.image" alt="" class="movie-image mb-2">
+        <p class="font-weight-bold mb-1">{{ movie.title }}</p>
         <p>上映時間: {{ movie.length | movieLength }}分</p>
         <p>評価{{ movie.score }}</p>
       </div>
@@ -29,3 +27,45 @@ export default class extends Vue {
   @Prop() movie!: Movie  
 }
 </script>
+
+<style lang="scss" scoped>
+.movie-card {
+  padding: 5px;
+  margin: 0 1px;
+  border-radius: 5px;
+  box-shadow: 0 0 16px 0 rgba(192, 192, 192, 0.7);
+  transition: box-shadow 400ms ease;
+
+  &:hover {
+    box-shadow: 0 0 16px 0 rgba(0, 134, 204, 0.5);
+
+    &:active {
+      box-shadow: 0 0 2px 0 rgba(0, 134, 204, 0.5);
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .movie-image {
+    width: 150px;
+  }
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+  }
+}
+@media screen and (max-width: 767px) {
+  .movie-image {
+    width: 90px;
+  }
+  p {
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+  }
+}
+</style>

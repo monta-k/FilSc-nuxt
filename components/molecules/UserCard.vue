@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row ">
     <div class="col-4">
       <img :src="filmarks_profile.profile_image" alt="カバー画像">
     </div>
