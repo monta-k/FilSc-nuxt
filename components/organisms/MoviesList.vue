@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import MovieContent from '~/components/MovieContent.vue'
+import MovieContent from '~/components/molecules/MovieContent.vue'
 import * as Vuex from 'vuex'
 
 @Component({

@@ -1,28 +1,19 @@
 <template>
-  <div class="signin-card">
-    <button class="btn btn-rounded btn-danger" @click="googleSignin">
-      <font-awesome-icon :icon="['fab','google']" />
-      |
-      <p class="font-weight-bold d-inline-block">Googleログイン</p>
-    </button>
-
-    <p class="h5 md-w50">- or -</p>
-
-    <form class="md-w50">
+  <form class="md-w50">
       <div class="form-group text-left">
         <input type="email" placeholder="Email" class="form-control" v-model="email">
       </div>
       <div class="form-group">
         <input type="password" placeholder="Password" class="form-control" v-model="password">
       </div>
+
+      <p class="text-danger mb-2">{{ errorMessage }}</p>
+      <app-button @click.prevent="signin()">
+        <font-awesome-icon :icon="['fas','envelope']" />
+        |
+        メールアドレスでログインする
+      </app-button>
     </form>
-    <p class="text-danger mb-2">{{ errorMessage }}</p>
-    <app-button @click="signin()">
-      <font-awesome-icon :icon="['fas','envelope']" />
-      |
-      メールアドレスでログインする
-    </app-button>
-  </div>
 </template>
 
 <script lang="ts">
@@ -43,17 +34,6 @@ export default class extends Vue {
   password: string = ''
   errorMessage: string | null = null
 
-  async googleSignin() {
-    try {
-      this.$store.dispatch('loading')
-      const provider = new firebase.auth.GoogleAuthProvider()
-      await firebase.auth().signInWithPopup(provider)
-    } catch (e) {
-      console.log(e)
-    } finally {
-      this.$store.dispatch('notLoading')
-    }
-  }
   async signin() {
     try {
       this.errorMessage = null
@@ -81,20 +61,3 @@ export default class extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.signin-card {
-  padding: 30px 10px;
-  border: solid 0.2px gray;
-  border-radius: 10px;
-  background-color: #eee;
-  margin-top: 100px;
-}
-
-@media screen and (min-width: 767px) {
-  .md-w50 {
-    width: 50%;
-    margin: auto;
-  }
-}
-</style>

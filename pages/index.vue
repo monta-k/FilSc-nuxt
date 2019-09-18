@@ -1,38 +1,18 @@
 <template>
-  <div class="mt-3">
-    <template v-if="user && user.filmarks_id">
-      <user-top></user-top>
-    </template>
-    <template v-else>
-      <user-form></user-form>
-    </template>
-  </div>
+  <top-page></top-page>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import UserForm from '~/components/UserForm.vue'
-import UserTop from '~/components/UserTop.vue'
+import TopPage from '~/components/pages/TopPage.vue'
 import * as Vuex from 'vuex'
 
 @Component({
   components: {
-    UserForm,
-    UserTop
+    TopPage
   }
 })
 
 export default class extends Vue {
-  $store!: Vuex.ExStore
-
-  get isLoading() {
-    return this.$store.getters['isLoading']
-  }
-  get movies() {
-    return this.$store.getters['movies']
-  }
-  get user() {
-    return this.$store.getters['users/user']
-  }
 }
 </script>
