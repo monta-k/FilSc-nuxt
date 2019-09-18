@@ -1,5 +1,5 @@
 const environment = process.env.NODE_ENV || 'development';
-const envSet = require(`./env.${environment}.js`)
+const envSet = require(`./env.${environment}.ts`)
 
 export default {
   mode: 'spa',
@@ -34,7 +34,7 @@ export default {
     middleware: 'auth'
   },
   plugins: [
-    '~/plugins/fireauth.js'
+    '~/plugins/fireauth.ts'
   ],
   /*
   ** Nuxt.js dev-modules
