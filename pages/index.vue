@@ -9,19 +9,30 @@
   </div>
 </template>
 
-<script>
-import { mapGetters, mapActions } from 'vuex'
-import UserForm from '~/components/UserForm'
-import UserTop from '~/components/UserTop'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import UserForm from '~/components/UserForm.vue'
+import UserTop from '~/components/UserTop.vue'
+import * as Vuex from 'vuex'
 
-export default {
-  computed: {
-    ...mapGetters(['isLoading', 'title', 'movies']),
-    ...mapGetters('users', ['user'])
-  },
+@Component({
   components: {
     UserForm,
     UserTop
+  }
+})
+
+export default class extends Vue {
+  $store!: Vuex.ExStore
+
+  get isLoading() {
+    return this.$store.getters['isLoading']
+  }
+  get movies() {
+    return this.$store.getters['movies']
+  }
+  get user() {
+    return this.$store.getters['users/user']
   }
 }
 </script>

@@ -42,60 +42,61 @@
   </div>
 </template>
 
-<script>
-import { mapGetters, mapActions } from 'vuex'
-import ModalView from '~/components/ModalView'
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+import ModalView from '~/components/ModalView.vue'
+import * as Vuex from 'vuex'
+import { User } from '~/store/users/type'
 
-export default {
-  data() {
-    return {
-      searchId: '',
-      filmarks_user: null,
-      modal: false
-    }
-  },
-  computed: {
-    ...mapGetters(['errorMessage'])
-  },
-  methods: {
-    async selectUser() {
-      try {
-        this.loading()
-        this.setFilmarksId({ searchId: this.searchId })
-      } catch (e) {
-        console.log(e)
-      } finally {
-        this.notLoading()
-      }
-    },
-    async search() {
-      if (this.searchId === '') return
-      try {
-        this.resetError()
-        this.filmarks_user = null
-        this.loading()
-        this.$axios.setHeader('Authorization', localStorage.getItem('jwt'))
-        const data = await this.$axios.$get(`${process.env.BaseUrl}/scrape/find_user`, { params: { searchId: this.searchId } })
-        this.filmarks_user = data
-        this.openModal()
-      } catch (e) {
-        console.log(e)
-        this.setError('ユーザーが存在しません')
-      } finally {
-        this.notLoading()
-      }
-    },
-    openModal() {
-      this.modal = true
-    },
-    closeModal() {
-      this.modal = false
-    },
-    ...mapActions(['loading', 'notLoading', 'setError', 'resetError']),
-    ...mapActions('users', ['setFilmarksId'])
-  },
+@Component({
   components: {
     ModalView
+  }
+})
+
+export default class extends Vue {
+  $store!: Vuex.ExStore
+
+  searchId: string = ''
+  filmarks_user: User | null = null
+  modal: boolean = false
+
+  get errorMessage() {
+    return this.$store.getters['errorMessage']
+  }
+
+  async selectUser() {
+    try {
+      this.$store.dispatch('loading')
+      this.$store.dispatch('users/setFilmarksId', { searchId: this.searchId })
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.$store.dispatch('notLoading')
+    }
+  }
+  async search() {
+    if (this.searchId === '') return
+    try {
+      this.$store.dispatch('resetError')
+      this.filmarks_user = null
+      this.$store.dispatch('loading')
+      this.$axios.setHeader('Authorization', localStorage.getItem('jwt') || false)
+      const data = await this.$axios.$get(`${process.env.BaseUrl}/scrape/find_user`, { params: { searchId: this.searchId } })
+      this.filmarks_user = data
+      this.openModal()
+    } catch (e) {
+      console.log(e)
+      this.$store.dispatch('setError', 'ユーザーが存在しません')
+    } finally {
+      this.$store.dispatch('notLoading')
+    }
+  }
+  openModal() {
+    this.modal = true
+  }
+  closeModal() {
+    this.modal = false
   }
 }
 </script>

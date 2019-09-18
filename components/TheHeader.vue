@@ -7,24 +7,26 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
 import firebase from '~/plugins/firebase'
-import { mapGetters, mapActions } from 'vuex'
+import * as Vuex from 'vuex'
 
-export default {
-  computed: {
-    ...mapGetters('users', ['isAuthenticated', 'user'])
-  },
-  methods: {
-    async signout() {
-      try {
-        await firebase.auth().signOut()
-        console.log('signout')
-      } catch (e) {
-        console.log(e)
-      }
-    },
-    ...mapActions('users', ['resetUser'])
+@Component
+export default class extends Vue {
+  $store!: Vuex.ExStore
+
+  get isAuthenticated() {
+    return this.$store.getters['users/isAuthenticated']
+  }
+
+  async signout() {
+    try {
+      await firebase.auth().signOut()
+      console.log('signout')
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 </script>
