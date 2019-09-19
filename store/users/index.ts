@@ -37,6 +37,7 @@ export const actions: Actions<S, A, G, M> = {
   },
   signoutUser(this: Vue, { commit }) {
     commit('resetUser')
+    localStorage.removeItem('jwt')
     this.$router.push('/signin')
   },
   async setFilmarksId(this: Vue, { commit }, { searchId }) {
