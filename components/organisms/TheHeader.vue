@@ -1,10 +1,10 @@
 <template>
-  <nav class="navbar navbar-dark bg-dark fixed-top" style="height: 60px;">
+  <nav class="navbar" style="height: 60px;">
     <div class="navbar-content d-flex justify-content-between">
       <a href="/" style="text-decoration:none">
         <h2 class="app-title h2 mb-0 d-inline-block">FilSc</h2>
       </a>
-      <button class="btn btn-rounded btn-dark" v-if="isAuthenticated" @click="signout">ログアウト</button>
+      <button class="btn" v-if="isAuthenticated" @click="signout">ログアウト</button>
     </div>
   </nav>
 </template>
@@ -35,7 +35,7 @@ export default class extends Vue {
 
 <style scoped>
 .app-title {
-  color: white;
+  color: black;
   letter-spacing: 0.5rem;
   font-family: 'Impact';
 }
@@ -73,7 +73,7 @@ export default class extends Vue {
       padding: 0 15px;
   }
 }
-@media (max-width: 766px) {
+@media (max-width: 575px) {
   .navbar-content {
       width: 100%;
       margin: auto;
