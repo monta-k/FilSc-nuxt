@@ -32,7 +32,6 @@
 
     <div class="row mt-5">
       <div class="col-12">
-        <h4 class="h4 text-center">Clipした映画</h4>
         <movies-list></movies-list>
       </div>
     </div>

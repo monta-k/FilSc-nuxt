@@ -1,11 +1,16 @@
 <template>
-  <div class="mt-3">
+  <div class="mt-3" style="margin-bottom:30px">
     <template v-if="user && user.filmarks_id">
       <user-top></user-top>
     </template>
     <template v-else>
       <user-form></user-form>
     </template>
+    <transition>
+      <div id="topbutton" v-show="scY > 300" @click="toTop">
+        トップへ戻る
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -25,6 +30,8 @@ import * as Vuex from 'vuex'
 export default class extends Vue {
   $store!: Vuex.ExStore
 
+  scY: number = 0
+
   get isLoading() {
     return this.$store.getters['isLoading']
   }
@@ -34,5 +41,37 @@ export default class extends Vue {
   get user() {
     return this.$store.getters['users/user']
   }
+
+  created() {
+    window.addEventListener("scroll", this.scEvent)
+  }
+
+  toTop() {
+    const scrolled = window.pageYOffset
+    window.scrollTo(0, Math.floor(scrolled * 0.8))
+    if (scrolled > 0) {
+      window.setTimeout(this.toTop, 10)
+    }
+  }
+  scEvent() {
+    this.scY = window.scrollY
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+#topbutton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+
+  //出現動作に関係するのは此処より下
+  transition: all 0.6s;
+  &.v-enter,
+  &.v-leave-to {
+    opacity: 0;
+    bottom: 10px;
+  }
+}
+</style>
