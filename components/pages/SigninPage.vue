@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+  <div class="text-center" style="padding-top:100px">
     <template v-if="isSignupMode">
       <signup-card></signup-card>
       <p class="h6 mt-2 d-inline-block" style="cursor: pointer" @click="changeMode()">アカウントをお持ちの方はこちら</p>
@@ -9,6 +9,8 @@
       <signin-card></signin-card>
       <p class="h6 mt-2 d-inline-block" style="cursor: pointer" @click="changeMode()">メールアドレスでの登録はこちら</p>
     </template>
+
+    <popular-movies></popular-movies>
   </div>
 </template>
 
@@ -17,11 +19,13 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import firebase from '~/plugins/firebase.ts'
 import SigninCard from '~/components/organisms/SigninCard.vue'
 import SignupCard from '~/components/organisms/SignupCard.vue'
+import PopularMovies from '~/components/organisms/PopularMovies.vue'
 
 @Component({
   components: {
     SigninCard,
-    SignupCard
+    SignupCard,
+    PopularMovies
   }
 })
 export default class extends Vue {

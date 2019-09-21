@@ -10,22 +10,32 @@ export interface Movie {
   updated_at: Date
 }
 
+export interface PopularMovie {
+  id: number
+  title: string
+  image: string
+  homepage: string | null
+}
+
 export interface S {
   isLoading: boolean
   movies: Array<Movie>
   errorMessage: string
+  popularMovies: Array<PopularMovie>
 }
 
 export interface G {
   isLoading: boolean
   movies: Array<Movie>
   errorMessage: string
+  popularMovies: Array<PopularMovie>
 }
 
 export interface RG {
   'isLoading': G['isLoading']
   'movies': G['movies']
   'errorMessage': G['errorMessage']
+  'popularMovies': G['popularMovies']
 }
 
 export interface M {
@@ -35,6 +45,7 @@ export interface M {
   resetMovies: void
   setError: string
   resetError: void
+  setPopularMovies: { movies: Array<PopularMovie> }
 }
 
 export interface RM {
@@ -44,6 +55,7 @@ export interface RM {
   'resetMovies': M['resetMovies']
   'setError': M['setError']
   'resetError': M['resetError']
+  'setPopularMovies': M['setPopularMovies']
 }
 
 export interface A {
@@ -56,6 +68,7 @@ export interface A {
   resetClipMovies: void
   setClipMovies: { movies: Array<Movie> }
   updateClipMoviesDB: { movies: Array<Movie> }
+  setPopularMovies: void
 }
 
 export interface RA {
@@ -68,4 +81,5 @@ export interface RA {
   'resetClipMovies': A['resetClipMovies']
   'setClipMovies': A['setClipMovies']
   'updateClipMoviesDB': A['updateClipMoviesDB']
+  'setPopularMovies': A['setPopularMovies']
 }

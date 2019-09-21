@@ -28,7 +28,8 @@
       "@nuxt/types",
       "./types/vuex",
       "@nuxtjs/axios",
-      "./types/star"
+      "./types/star",
+      "./types/vue-awesome-swiper"
     ]
   },
   "exclude": [
