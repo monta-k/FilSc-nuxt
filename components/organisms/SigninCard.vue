@@ -47,7 +47,6 @@ export default class extends Vue {
   border: solid 0.2px gray;
   border-radius: 10px;
   background-color: #eee;
-  margin-top: 100px;
 }
 
 @media screen and (min-width: 767px) {

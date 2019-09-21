@@ -6,12 +6,14 @@ export const state = (): S => ({
   isLoading: false,
   movies: [],
   errorMessage: '',
+  popularMovies: []
 })
 
 export const getters: Getters<S, G> = {
   isLoading: (state) => state.isLoading,
   movies: (state) => state.movies,
   errorMessage: (state) => state.errorMessage,
+  popularMovies: (state) => state.popularMovies
 }
 
 export const mutations: Mutations<S, M> = {
@@ -32,6 +34,9 @@ export const mutations: Mutations<S, M> = {
   },
   resetError(state) {
     state.errorMessage = ''
+  },
+  setPopularMovies(state, { movies }) {
+    state.popularMovies = movies
   }
 }
 
@@ -90,6 +95,14 @@ export const actions: Actions<S, A, G, M> = {
       console.log('reset movies')
       await dispatch('setClipMovies', { movies: movies })
       console.log('set movies')
+    } catch (e) {
+      console.log(e)
+    }
+  },
+  async setPopularMovies(this: Vue, { commit }) {
+    try {
+      const data = await this.$axios.$get(`${process.env.BaseUrl}/popular_movies`)
+      commit('setPopularMovies', { movies: data })
     } catch (e) {
       console.log(e)
     }
