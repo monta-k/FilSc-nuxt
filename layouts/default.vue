@@ -1,7 +1,7 @@
 <template>
   <div>
-    <the-header></the-header>
-    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+    <the-header />
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" />
     <div class="container">
       <nuxt />
     </div>
@@ -11,8 +11,8 @@
 <script>
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
-import TheHeader from '~/components/organisms/TheHeader'
 import { mapGetters } from 'vuex'
+import TheHeader from '~/components/organisms/TheHeader'
 
 export default {
   computed: {

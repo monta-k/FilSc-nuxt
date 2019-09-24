@@ -1,4 +1,4 @@
-const environment = process.env.NODE_ENV || 'development';
+const environment = process.env.NODE_ENV || 'development'
 const envSet = require(`./env.${environment}.ts`)
 
 export default {
@@ -51,7 +51,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     '@nuxtjs/dotenv',
-    'nuxt-fontawesome',
+    'nuxt-fontawesome'
   ],
   /*
   ** Axios module configuration
@@ -82,13 +82,13 @@ export default {
   buildModules: ['@nuxt/typescript-build'],
   env: envSet,
   manifest: {
-    name: "FilSc",
-    title: "FilSc",
+    name: 'FilSc',
+    title: 'FilSc',
     'og:title': 'FilSc',
     description: 'ちょっと時間が空いた時にスッキリハマる映画をFilmarksからすぐに探したいですよね。そんなあなたのためのサービスです。',
     'og:description': 'ちょっと時間が空いた時にスッキリハマる映画をFilmarksからすぐに探したいですよね。そんなあなたのためのサービスです。',
     lang: 'ja',
-    display: "standalone",
+    display: 'standalone',
     scope: '/',
     start_url: '/'
   }

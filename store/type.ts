@@ -5,9 +5,9 @@ export interface Movie {
   link: string
   score: string
   length: number
-  user_id: number
-  created_at: Date
-  updated_at: Date
+  userId: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface PopularMovie {

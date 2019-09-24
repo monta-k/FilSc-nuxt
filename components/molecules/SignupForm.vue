@@ -2,17 +2,19 @@
   <form class="md-w50">
     <div class="form-group text-left">
       <label for="name">Name</label>
-      <input type="text" class="form-control" id="name" v-model="name">
+      <input id="name" v-model="name" type="text" class="form-control">
     </div>
     <div class="form-group text-left">
       <label for="email">Email</label>
-      <input type="email" class="form-control" id="email" v-model="email">
+      <input id="email" v-model="email" type="email" class="form-control">
     </div>
     <div class="form-group text-left">
       <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" v-model="password">
+      <input id="password" v-model="password" type="password" class="form-control">
     </div>
-    <p class="text-danger mb-2">{{ errorMessage }}</p>
+    <p class="text-danger mb-2">
+      {{ errorMessage }}
+    </p>
     <app-button @click.prevent="signup()">
       <font-awesome-icon :icon="['fas','check']" />
       ユーザー登録する
@@ -22,9 +24,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import * as Vuex from 'vuex'
 import firebase from '~/plugins/firebase.ts'
 import AppButton from '~/components/atoms/AppButton.vue'
-import * as Vuex from 'vuex'
 
 @Component({
   components: {
@@ -39,7 +41,7 @@ export default class extends Vue {
   password: string = ''
   errorMessage: string | null = null
 
-  async signup() {
+  async signup () {
     try {
       this.errorMessage = null
       this.$store.dispatch('loading')
@@ -56,15 +58,18 @@ export default class extends Vue {
       this.$store.dispatch('notLoading')
     }
   }
-  isInvalid() {
+  isInvalid (): string | false {
     if (this.name === null) {
-      return this.errorMessage = '名前が未入力です'
+      this.errorMessage = '名前が未入力です'
+      return this.errorMessage
     }
     if (this.email === '') {
-      return this.errorMessage = 'メールアドレスが未入力です'
+      this.errorMessage = 'メールアドレスが未入力です'
+      return this.errorMessage
     }
     if (this.password === '') {
-      return this.errorMessage = 'パスワードが未入力です'
+      this.errorMessage = 'パスワードが未入力です'
+      return this.errorMessage
     }
     return false
   }

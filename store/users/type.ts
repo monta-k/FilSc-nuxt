@@ -3,9 +3,9 @@ export interface User {
   name: string
   email: string
   uid: string
-  filmarks_id: string
-  created_at: Date
-  updated_at: Date
+  filmarksId: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface S {
