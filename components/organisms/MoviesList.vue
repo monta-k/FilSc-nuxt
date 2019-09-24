@@ -1,23 +1,31 @@
 <template>
   <div class="row mt-2 mb-3">
     <div class="col-12" :class="{ 'is-fixed': isFixed }" style="background-color: white;">
-      <h4 class="h4 text-center">Clipした映画</h4>
-      <input type="checkbox" value="true" id="lengthToggle" v-model="hideUndecidedLength">
+      <h4 class="h4 text-center">
+        Clipした映画
+      </h4>
+      <input id="lengthToggle" v-model="hideUndecidedLength" type="checkbox" value="true">
       <label class="mr-2 align-middle" for="lengthToggle">
         -分を隠す
       </label>
-      <input type="number" v-model="narrowLengthStart" min="0" max="999"><p class="d-inline-block align-middle">分</p>
-      <p class="d-inline-block align-middle">〜</p>
-      <input type="number" v-model="narrowLengthEnd" min="0" max="999"><p class="d-inline-block align-middle">分</p>
+      <input v-model="narrowLengthStart" type="number" min="0" max="999"><p class="d-inline-block align-middle">
+        分
+      </p>
+      <p class="d-inline-block align-middle">
+        〜
+      </p>
+      <input v-model="narrowLengthEnd" type="number" min="0" max="999"><p class="d-inline-block align-middle">
+        分
+      </p>
     </div>
-    <movie-content class="col-md-3 col-6 mt-3" v-for="(movie, index) in narrowedMovies" :key="index" :movie="movie"></movie-content>
+    <movie-content v-for="(movie, index) in narrowedMovies" :key="index" class="col-md-3 col-6 mt-3" :movie="movie" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import MovieContent from '~/components/molecules/MovieContent.vue'
 import * as Vuex from 'vuex'
+import MovieContent from '~/components/molecules/MovieContent.vue'
 
 @Component({
   components: {
@@ -33,19 +41,19 @@ export default class extends Vue {
   narrowLengthEnd: number = 999
   isFixed: boolean = false
 
-  mounted() {
+  mounted () {
     this.$store.dispatch('fetchUserMovies')
     window.addEventListener('scroll', this.handleScroll)
   }
-  beforeDestroy() {
+  beforeDestroy () {
     window.removeEventListener('scroll', this.handleScroll)
   }
 
-  get movies() {
-    return this.$store.getters['movies']
+  get movies () {
+    return this.$store.getters.movies
   }
 
-  get narrowedMovies() {
+  get narrowedMovies () {
     if (this.hideUndecidedLength) {
       return this.movies.filter(movie => movie.length >= this.narrowLengthStart && movie.length <= this.narrowLengthEnd && movie.length !== 0)
     } else {
@@ -53,7 +61,7 @@ export default class extends Vue {
     }
   }
 
-  handleScroll() {
+  handleScroll () {
     this.isFixed = window.scrollY >= 325
   }
 }

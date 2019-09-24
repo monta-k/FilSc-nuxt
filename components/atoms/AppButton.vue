@@ -10,7 +10,7 @@ import { Prop, Vue } from 'nuxt-property-decorator'
 export default class extends Vue {
   @Prop() disabled: Boolean = false
 
-  callback(e :Event): void {
+  callback (e :Event): void {
     this.$emit('click', e)
   }
 }

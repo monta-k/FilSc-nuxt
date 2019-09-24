@@ -47,11 +47,11 @@ export default class extends Vue {
     }
   }
 
-  get popularMovies() {
-    return this.$store.getters['popularMovies']
+  get popularMovies () {
+    return this.$store.getters.popularMovies
   }
 
-  mounted() {
+  mounted () {
     this.$store.dispatch('setPopularMovies')
   }
 }

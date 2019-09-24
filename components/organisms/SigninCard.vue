@@ -3,20 +3,24 @@
     <button class="btn btn-rounded btn-danger" @click="googleSignin">
       <font-awesome-icon :icon="['fab','google']" />
       |
-      <p class="font-weight-bold d-inline-block">Googleログイン</p>
+      <p class="font-weight-bold d-inline-block">
+        Googleログイン
+      </p>
     </button>
 
-    <p class="h5 md-w50">- or -</p>
+    <p class="h5 md-w50">
+      - or -
+    </p>
 
-    <signin-form></signin-form>
+    <signin-form />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import * as Vuex from 'vuex'
 import firebase from '~/plugins/firebase.ts'
 import SigninForm from '~/components/molecules/SigninForm.vue'
-import * as Vuex from 'vuex'
 
 @Component({
   components: {
@@ -27,7 +31,7 @@ import * as Vuex from 'vuex'
 export default class extends Vue {
   $store!: Vuex.ExStore
 
-  async googleSignin() {
+  async googleSignin () {
     try {
       this.$store.dispatch('loading')
       const provider = new firebase.auth.GoogleAuthProvider()

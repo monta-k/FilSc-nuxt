@@ -4,25 +4,27 @@
       <a href="/" style="text-decoration:none">
         <h2 class="app-title h2 mb-0 d-inline-block">FilSc</h2>
       </a>
-      <button class="btn" v-if="isAuthenticated" @click="signout">ログアウト</button>
+      <button v-if="isAuthenticated" class="btn" @click="signout">
+        ログアウト
+      </button>
     </div>
   </nav>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import firebase from '~/plugins/firebase.ts'
 import * as Vuex from 'vuex'
+import firebase from '~/plugins/firebase.ts'
 
 @Component
 export default class extends Vue {
   $store!: Vuex.ExStore
 
-  get isAuthenticated() {
+  get isAuthenticated () {
     return this.$store.getters['users/isAuthenticated']
   }
 
-  async signout() {
+  async signout () {
     try {
       await firebase.auth().signOut()
       console.log('signout')

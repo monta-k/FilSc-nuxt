@@ -4,13 +4,13 @@
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header border-0">
-            <slot name="header"></slot>
+            <slot name="header" />
           </div>
           <div class="modal-body border-0">
-            <slot name="body"></slot>
+            <slot name="body" />
           </div>
           <div class="modal-footer border-0">
-            <slot name="footer"></slot>
+            <slot name="footer" />
           </div>
         </div>
       </div>
@@ -19,12 +19,12 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
   @Component
-  export default class extends Vue {
+export default class extends Vue {
 
-  }
+}
 </script>
 
 <style scoped>

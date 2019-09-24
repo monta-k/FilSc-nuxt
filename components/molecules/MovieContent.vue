@@ -1,11 +1,18 @@
 <template>
-  <a class="text-dark text-center pr-1 pl-1" :href="movie.link" target='_blank' style="text-decoration:none;">
+  <a class="text-dark text-center pr-1 pl-1" :href="movie.link" target="_blank" style="text-decoration:none;">
     <div class="movie-card row">
       <div class="col-12">
         <img :src="movie.image" alt="" class="movie-image mb-2">
         <p class="font-weight-bold mb-1">{{ movie.title }}</p>
         <p>上映時間: {{ movie.length | movieLength }}分</p>
-        <star-rating v-model="scoreNumber" :increment="0.1" :star-size="starSize" :read-only="true" :show-rating="false" :inline="true"></star-rating>
+        <star-rating
+          v-model="scoreNumber"
+          :increment="0.1"
+          :star-size="starSize"
+          :read-only="true"
+          :show-rating="false"
+          :inline="true"
+        />
       </div>
     </div>
   </a>
@@ -13,15 +20,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { Movie } from '~/store/type'
 import StarRating from 'vue-star-rating'
+import { Movie } from '~/store/type'
 
 @Component({
   components: {
-    StarRating: StarRating
+    StarRating
   },
   filters: {
-    movieLength: function (length: number): string | number {
+    movieLength (length: number): string | number {
       return length === 0 ? '-' : length
     }
   }
@@ -30,7 +37,7 @@ import StarRating from 'vue-star-rating'
 export default class extends Vue {
   @Prop() movie!: Movie
 
-  get starSize(): number {
+  get starSize (): number {
     if (window.parent.screen.width >= 768) {
       return 20
     } else {
@@ -38,7 +45,7 @@ export default class extends Vue {
     }
   }
 
-  get scoreNumber(): number {
+  get scoreNumber (): number {
     return Number(this.movie.score)
   }
 }
