@@ -1,0 +1,28 @@
+version: 2.1
+jobs:
+  test:
+    machine:
+      image: circleci/classic:edge
+    steps:
+      - checkout
+      - run:
+          name: docker-compose build
+          command: docker-compose build
+      - run:
+          name: docker-compose up
+          command: docker-compose up -d
+      - run:
+          name: package install
+          command: docker-compose run front yarn install
+      - run:
+          name: lint
+          command: docker-compose run front yarn lint
+      - run:
+          name: docker-compose down
+          command: docker-compose down
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
