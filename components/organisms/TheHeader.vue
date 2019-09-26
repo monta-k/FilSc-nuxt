@@ -50,7 +50,7 @@ export default class extends Vue {
     }
   }
 
-  toSettingPage() {
+  toSettingPage () {
     this.$router.push('/setting')
   }
 }

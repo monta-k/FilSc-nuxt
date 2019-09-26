@@ -5,19 +5,33 @@
       <input v-model="newName" type="text" class="form-control">
     </div>
     <div>
-      <p class="text-danger">{{ errorMessage1 }}</p>
-      <p class="text-success">{{ successMessage1 }}</p>
-      <app-button @click="updateUserName()">名前を変更する</app-button>
+      <p class="text-danger">
+        {{ errorMessage1 }}
+      </p>
+      <p class="text-success">
+        {{ successMessage1 }}
+      </p>
+      <app-button @click="updateUserName()">
+        名前を変更する
+      </app-button>
     </div>
 
-    <p class="h5 mt-5">FilmarksIDを変更</p>
+    <p class="h5 mt-5">
+      FilmarksIDを変更
+    </p>
     <div class="form-group text-left md-w50">
       <input v-model="newFilmarksId" type="text" class="form-control">
     </div>
     <div>
-      <p class="text-danger">{{ errorMessage2 }}</p>
-      <p class="text-success">{{ successMessage2 }}</p>
-      <app-button @click="search()">Filmarksアカウントを検索する</app-button>
+      <p class="text-danger">
+        {{ errorMessage2 }}
+      </p>
+      <p class="text-success">
+        {{ successMessage2 }}
+      </p>
+      <app-button @click="search()">
+        Filmarksアカウントを検索する
+      </app-button>
     </div>
 
     <modal-view v-if="filmarksIdModal">
@@ -62,20 +76,28 @@
 
     <div class="mt-5">
       <hr class="w-100">
-      <app-button :is-danger="true" @click="deleteUserModal = true">アカウントを削除する</app-button>
+      <app-button :is-danger="true" @click="deleteUserModal = true">
+        アカウントを削除する
+      </app-button>
     </div>
 
     <modal-view v-if="deleteUserModal">
       <template slot="body">
         <div>
-          <p class="h5">本当に削除しますか?</p>
+          <p class="h5">
+            本当に削除しますか?
+          </p>
         </div>
       </template>
 
       <template slot="footer">
         <div class="text-center">
-          <app-button :is-danger="true" @click="deleteUser">削除する</app-button>
-          <app-button @click="deleteUserModal = false">キャンセル</app-button>
+          <app-button :is-danger="true" @click="deleteUser">
+            削除する
+          </app-button>
+          <app-button @click="deleteUserModal = false">
+            キャンセル
+          </app-button>
         </div>
       </template>
     </modal-view>
@@ -107,23 +129,23 @@ export default class extends Vue {
   deleteUserModal: boolean = false
   filmarksIdModal: boolean = false
 
-  get user() {
+  get user () {
     return this.$store.getters['users/user']
   }
-  get userName() {
+  get userName () {
     if (this.user) {
       return this.user.name
     }
     return ''
   }
-  get userFilmarksId() {
+  get userFilmarksId () {
     if (this.user) {
       return this.user.filmarksId
     }
     return ''
   }
 
-  async updateUserName() {
+  async updateUserName () {
     if (this.newName === '') {
       this.errorMessage1 = '名前は1文字以上にしてください'
       return
@@ -132,18 +154,18 @@ export default class extends Vue {
       this.clearMessage()
       await this.$store.dispatch('users/updateUserName', { name: this.newName })
       this.successMessage1 = '名前を変更しました'
-    } catch(e) {
+    } catch (e) {
       console.log(e)
       this.errorMessage1 = '名前の変更に失敗しました'
     }
   }
-  clearMessage() {
+  clearMessage () {
     this.successMessage1 = null
     this.successMessage2 = null
     this.errorMessage1 = null
     this.errorMessage2 = null
   }
-  async deleteUser() {
+  async deleteUser () {
     try {
       await this.$store.dispatch('users/deleteUser')
     } catch (e) {
