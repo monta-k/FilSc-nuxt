@@ -4,9 +4,7 @@
       <a href="/" style="text-decoration:none">
         <h2 class="app-title h2 mb-0 d-inline-block">FilSc</h2>
       </a>
-      <button v-if="isAuthenticated" class="btn" @click="signout">
-        ログアウト
-      </button>
+      <app-dropdown v-if="isAuthenticated" label="設定" :list-items="listItems" :action="action" />
     </div>
   </nav>
 </template>
@@ -15,10 +13,29 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import * as Vuex from 'vuex'
 import firebase from '~/plugins/firebase.ts'
+import AppDropdown from '~/components/atoms/AppDropdown.vue'
 
-@Component
+@Component({
+  components: {
+    AppDropdown
+  }
+})
 export default class extends Vue {
   $store!: Vuex.ExStore
+
+  showDropdown: boolean = false
+  listItems: Object = {
+    1: 'ユーザー情報',
+    2: 'ログアウト'
+  }
+  action: Function = (key: string) => {
+    if (key === '1') {
+      console.log('ユーザー情報')
+    }
+    if (key === '2') {
+      this.signout()
+    }
+  }
 
   get isAuthenticated () {
     return this.$store.getters['users/isAuthenticated']
