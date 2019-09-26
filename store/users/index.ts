@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { Getters, Mutations, Actions } from 'vuex'
 import { S, G, M, A } from './type'
+import firebase from '~/plugins/firebase.ts'
 
 export const state = (): S => ({
   user: null,
@@ -45,6 +46,23 @@ export const actions: Actions<S, A, G, M> = {
     console.log(searchId)
     const data = await this.$axios.$patch(`${process.env.BaseUrl}/users`, { user: { filmarks_id: searchId } })
     commit('setUser', { payload: data })
+  },
+  async updateUserName (this: Vue, { commit }, { name }) {
+    this.$axios.setHeader('Authorization', localStorage.getItem('jwt') || false)
+    const data = await this.$axios.$patch(`${process.env.BaseUrl}/users`, { user: { name } })
+    commit('setUser', { payload: data })
+  },
+  async deleteUser (this: Vue, { commit }) {
+    this.$axios.setHeader('Authorization', localStorage.getItem('jwt') || false)
+    await this.$axios.$delete(`${process.env.BaseUrl}/users`)
+    commit('resetUser')
+    const user = firebase.auth().currentUser
+    if (user) {
+      user.delete().then(() => {
+        console.log('Delete User')
+        this.$router.push('/')
+      })
+    }
   },
   setUser ({ commit }, payload) {
     commit('setUser', { payload })

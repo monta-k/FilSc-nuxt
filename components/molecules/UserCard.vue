@@ -7,10 +7,10 @@
       <h5 class="h5">
         {{ filmarksProfile.profileName }}
       </h5>
-      <h5 class="h5">
+      <h5 class="h5 mb-3">
         {{ filmarksProfile.profileId }}
       </h5>
-      <a class="text-dark d-block mt-3" :href="filmarksProfile.url" target="_blank" rel="noopener" style="text-decoration:none;">Filmarksページへ</a>
+      <a class="text-dark" :href="filmarksProfile.url" target="_blank" rel="noopener" style="text-decoration:none;">Filmarksページへ</a>
     </div>
   </div>
 </template>
@@ -19,7 +19,6 @@
 import { Prop, Component, Vue } from 'nuxt-property-decorator'
 import * as Vuex from 'vuex'
 import AppButton from '~/components/atoms/AppButton.vue'
-import UserCard from '~/components/molecules/UserCard.vue'
 
 export interface FilmarksProfile {
   url: string
@@ -30,8 +29,7 @@ export interface FilmarksProfile {
 
 @Component({
   components: {
-    AppButton,
-    UserCard
+    AppButton
   }
 })
 
