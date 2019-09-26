@@ -43,6 +43,7 @@ export interface A {
   signinUser: { newName: string }
   signoutUser: void
   setFilmarksId: { searchId: string }
+  updateUserName: { name: string }
   setUser: User
   resetUser: void
   setNewUserName: string | null
@@ -53,6 +54,7 @@ export interface RA {
   'users/signinUser': A['signinUser']
   'users/signoutUser': A['signoutUser']
   'users/setFilmarksId': A['setFilmarksId']
+  'users/updateUserName': A['updateUserName']
   'users/setUser': A['setUser']
   'users/resetUser': A['resetUser']
   'users/setNewUserName': A['setNewUserName']

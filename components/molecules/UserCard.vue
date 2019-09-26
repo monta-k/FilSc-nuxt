@@ -19,7 +19,6 @@
 import { Prop, Component, Vue } from 'nuxt-property-decorator'
 import * as Vuex from 'vuex'
 import AppButton from '~/components/atoms/AppButton.vue'
-import UserCard from '~/components/molecules/UserCard.vue'
 
 export interface FilmarksProfile {
   url: string
@@ -30,8 +29,7 @@ export interface FilmarksProfile {
 
 @Component({
   components: {
-    AppButton,
-    UserCard
+    AppButton
   }
 })
 

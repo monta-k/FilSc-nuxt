@@ -46,6 +46,11 @@ export const actions: Actions<S, A, G, M> = {
     const data = await this.$axios.$patch(`${process.env.BaseUrl}/users`, { user: { filmarks_id: searchId } })
     commit('setUser', { payload: data })
   },
+  async updateUserName (this: Vue, { commit }, { name }) {
+    this.$axios.setHeader('Authorization', localStorage.getItem('jwt') || false)
+    const data = await this.$axios.$patch(`${process.env.BaseUrl}/users`, { user: { name: name } })
+    commit('setUser', { payload: data })
+  },
   setUser ({ commit }, payload) {
     commit('setUser', { payload })
   },

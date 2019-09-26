@@ -30,7 +30,7 @@ export default class extends Vue {
   }
   action: Function = (key: string) => {
     if (key === '1') {
-      console.log('ユーザー情報')
+      this.toSettingPage()
     }
     if (key === '2') {
       this.signout()
@@ -48,6 +48,10 @@ export default class extends Vue {
     } catch (e) {
       console.log(e)
     }
+  }
+
+  toSettingPage() {
+    this.$router.push('/setting')
   }
 }
 </script>
