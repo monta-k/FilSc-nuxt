@@ -9472,7 +9472,7 @@ vue-no-ssr@^1.1.1:
   resolved "https://registry.yarnpkg.com/vue-no-ssr/-/vue-no-ssr-1.1.1.tgz#875f3be6fb0ae41568a837f3ac1a80eaa137b998"
   integrity sha512-ZMjqRpWabMPqPc7gIrG0Nw6vRf1+itwf0Itft7LbMXs2g3Zs/NFmevjZGN1x7K3Q95GmIjWbQZTVerxiBxI+0g==
 
-vue-property-decorator@^8.2.2:
+vue-property-decorator@^8.0.0, vue-property-decorator@^8.2.2:
   version "8.2.2"
   resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-8.2.2.tgz#ac895e9508ee1bf86e3a28568d94d842c2c8e42f"
   integrity sha512-3gRrIeoUtjXvkoMX2stJsVs7805Pa9MXEndnk21ej+sWO7AIc5HF1TKqK0Pox5TEjpO02UbadIF0QWNrx6ZwXQ==
@@ -9497,6 +9497,13 @@ vue-server-renderer@^2.6.10:
     resolve "^1.2.0"
     serialize-javascript "^1.3.0"
     source-map "0.5.6"
+
+vue-slider-component@^3.0.41:
+  version "3.0.41"
+  resolved "https://registry.yarnpkg.com/vue-slider-component/-/vue-slider-component-3.0.41.tgz#dd97f51347b200fc56b05789263b2f02ad5016f9"
+  integrity sha512-TVLwAJtDInkYp3KYUqptvyLg9Ppx4WqCeVlbbqCS10MpLItq10yRhObWVAGcN07n2++Vv7h5y//4hLGZkauBZA==
+  dependencies:
+    vue-property-decorator "^8.0.0"
 
 vue-star-rating@^1.6.1:
   version "1.6.1"
