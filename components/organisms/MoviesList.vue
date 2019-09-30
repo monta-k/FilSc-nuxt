@@ -1,22 +1,22 @@
 <template>
   <div class="row mt-2 mb-3">
-    <div class="col-12" :class="{ 'is-fixed': isFixed }" style="background-color: white;">
-      <h4 class="h4 text-center">
-        Clipした映画
-      </h4>
-      <input id="lengthToggle" v-model="hideUndecidedLength" type="checkbox" value="true">
-      <label class="mr-2 align-middle" for="lengthToggle">
-        -分を隠す
-      </label>
-      <input v-model="narrowLengthStart" type="number" min="0" max="999"><p class="d-inline-block align-middle">
-        分
-      </p>
-      <p class="d-inline-block align-middle">
-        〜
-      </p>
-      <input v-model="narrowLengthEnd" type="number" min="0" max="999"><p class="d-inline-block align-middle">
-        分
-      </p>
+    <div class="col-12" :class="{ 'is-fixed': isFixed }" style="background-color: white; height:75px;">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="h4 text-center">
+            Clipした映画
+          </h4>
+        </div>
+        <div class="col-5 col-md-2">
+          <input id="lengthToggle" v-model="hideUndecidedLength" type="checkbox" value="true">
+          <label class="mr-2 align-middle" for="lengthToggle">
+            -分を隠す
+          </label>
+        </div>
+        <div class="col-7 col-md-10">
+          <vue-slider v-model="narrowLength" :min="0" :max="500" :marks="marks" :width="150" />
+        </div>
+      </div>
     </div>
     <movie-content v-for="(movie, index) in narrowedMovies" :key="index" class="col-md-3 col-6 mt-3" :movie="movie" />
   </div>
@@ -25,11 +25,14 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import * as Vuex from 'vuex'
+import VueSlider from 'vue-slider-component'
 import MovieContent from '~/components/molecules/MovieContent.vue'
+import 'vue-slider-component/theme/default.css'
 
 @Component({
   components: {
-    MovieContent
+    MovieContent,
+    VueSlider
   }
 })
 
@@ -37,9 +40,17 @@ export default class extends Vue {
   $store!: Vuex.ExStore
 
   hideUndecidedLength: boolean = false
-  narrowLengthStart: number = 0
-  narrowLengthEnd: number = 999
+  narrowLength: Array<number> = [0, 500]
   isFixed: boolean = false
+  marks = (val: number) => val % 500 === 0 ? ({
+    label: `${val}分`,
+    labelStyle: {
+      opacity: 1
+    },
+    labelActiveStyle: {
+      color: '#3498db'
+    }
+  }) : false
 
   mounted () {
     this.$store.dispatch('fetchUserMovies')
@@ -55,9 +66,9 @@ export default class extends Vue {
 
   get narrowedMovies () {
     if (this.hideUndecidedLength) {
-      return this.movies.filter(movie => movie.length >= this.narrowLengthStart && movie.length <= this.narrowLengthEnd && movie.length !== 0)
+      return this.movies.filter(movie => movie.length >= this.narrowLength[0] && movie.length <= this.narrowLength[1] && movie.length !== 0)
     } else {
-      return this.movies.filter(movie => movie.length >= this.narrowLengthStart && movie.length <= this.narrowLengthEnd)
+      return this.movies.filter(movie => movie.length >= this.narrowLength[0] && movie.length <= this.narrowLength[1])
     }
   }
 
