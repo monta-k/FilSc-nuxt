@@ -4,8 +4,6 @@ export interface User {
   email: string
   uid: string
   filmarksId: string
-  createdAt: Date
-  updatedAt: Date
 }
 
 export interface S {

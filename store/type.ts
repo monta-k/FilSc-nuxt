@@ -6,8 +6,6 @@ export interface Movie {
   score: string
   length: number
   userId: number
-  createdAt: Date
-  updatedAt: Date
 }
 
 export interface PopularMovie {
