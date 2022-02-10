@@ -26,7 +26,7 @@
     "bootstrap-vue": "^2.0.0-rc.11",
     "cross-env": "^5.2.1",
     "firebase": "^6.5.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-property-decorator": "^2.4.0",
